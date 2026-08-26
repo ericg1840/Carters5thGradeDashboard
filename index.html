@@ -206,9 +206,6 @@ body{
 .cal-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);}
 .leg-item{display:flex;align-items:center;gap:6px;font-size:12.5px;color:rgba(246,241,228,0.6);}
 .leg-swatch{width:11px;height:11px;border-radius:4px;flex-shrink:0;}
-.detail-card{padding:18px;margin-top:14px;}
-.detail-eyebrow{font-family:var(--font-main);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(246,241,228,0.45);margin-bottom:5px;}
-.detail-date{font-family:var(--font-main);font-size:20px;font-weight:700;color:var(--cream);margin-bottom:10px;}
 
 .foot{margin-top:22px;padding:16px 18px;border-radius:12px;background:rgba(205,164,84,0.06);border:1px solid var(--line);font-size:14.5px;line-height:1.6;color:rgba(246,241,228,0.6);}
 .foot p{margin:0 0 8px;}
@@ -224,7 +221,7 @@ body{
   .up-date2{display:block;}
   .card{border-radius:13px;}
   .schedule-card{padding:18px;}
-  .side-card,.cal-card,.detail-card{padding:14px;}
+  .side-card,.cal-card{padding:14px;}
   .schedule-title{font-size:20px;}
   .tl-row{grid-template-columns:44px 16px 36px 1fr auto;column-gap:8px;}
   .tl-icon{width:36px;height:36px;font-size:17px;}
@@ -263,7 +260,7 @@ body{
     <div class="col-main">
       <div class="card schedule-card">
         <div class="schedule-head">
-          <div class="schedule-title">Today's Schedule</div>
+          <div class="schedule-title" id="scheduleTitle">Today's Schedule</div>
           <div class="rot-pill" id="rotPill"></div>
         </div>
         <div class="day-tabs" id="dayTabs"></div>
@@ -289,12 +286,6 @@ body{
           <div class="leg-item"><span class="leg-swatch" style="background:var(--navy-800);position:relative;overflow:hidden;"><span style="position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 12px 12px 0;border-color:transparent var(--gold-400) transparent transparent;"></span></span>Half day</div>
           <div class="leg-item"><span class="leg-swatch" style="background:var(--navy-800);box-shadow:0 0 0 2px var(--gold-400) inset"></span>Today</div>
         </div>
-      </div>
-
-      <div class="card detail-card">
-        <div class="detail-eyebrow">Day Detail</div>
-        <div class="detail-date" id="detailDate"></div>
-        <div id="detailBody"></div>
       </div>
     </div>
 
@@ -493,44 +484,6 @@ function describeDate(date){
   return out;
 }
 
-/* ============ SHARED ROW RENDERERS ============ */
-function periodRowsHTML(classes){
-  return classes.map(p => {
-    const s = SUBJECT_STYLE[p.kind];
-    return `<div class="period-row">
-      <div class="p-icon" style="background:${s.color}33;color:${s.color}">${s.icon}</div>
-      <div class="p-main">
-        <div class="p-name">${p.subject}</div>
-        <div class="p-sub">${p.teacher} · ${p.room}</div>
-      </div>
-      <div class="p-time">${p.time || ''}</div>
-    </div>`;
-  }).join('');
-}
-function busMiniRowsHTML(){
-  return `<div class="period-row">
-      <div class="p-icon" style="background:#4a9d6f33;color:#4a9d6f">🚌</div>
-      <div class="p-main"><div class="p-name">AM Pickup — Bus ${BUS_INFO.number}</div><div class="p-sub">${BUS_INFO.stop}</div></div>
-      <div class="p-time">${BUS_INFO.amTime}</div>
-    </div>
-    <div class="period-row">
-      <div class="p-icon" style="background:#cd8f4a33;color:#cd8f4a">🚌</div>
-      <div class="p-main"><div class="p-name">PM Drop-off — Bus ${BUS_INFO.number}</div><div class="p-sub">${BUS_INFO.stop}</div></div>
-      <div class="p-time">${BUS_INFO.pmTime}</div>
-    </div>`;
-}
-function bodyForInfo(info){
-  if(info.status==='before') return `<div class="status-line">School hasn't started yet — first day is <b>${fmtLong(SCHOOL_YEAR_START)}</b>.</div>`;
-  if(info.status==='after') return `<div class="status-line">Summer! School's out — last day was <b>${fmtLong(SCHOOL_YEAR_END)}</b>.</div>`;
-  if(info.status==='weekend') return `<div class="status-line">Weekend — no school.</div>`;
-  if(info.status==='off') return `<div class="status-line off">No school — <b>${info.off.label}</b>.</div>`;
-  let extra = '';
-  if(info.milestone) extra += `<div class="status-line" style="margin-bottom:10px;">🎒 ${info.milestone}</div>`;
-  if(info.halfDay) extra += `<div class="status-line" style="margin-bottom:10px;">${info.halfDay}</div>`;
-  if(info.quarterEnd) extra += `<div class="status-line" style="margin-bottom:10px;">${info.quarterEnd}</div>`;
-  return `${extra}<div class="mini-label">Busing</div>${busMiniRowsHTML()}<div class="mini-label" style="margin-top:14px;">Classes</div>${periodRowsHTML(info.classes)}`;
-}
-
 /* ============ TOP PILLS ============ */
 function renderTopPills(){
   const today = new Date(); today.setHours(0,0,0,0);
@@ -628,13 +581,12 @@ function renderStats(today){
   el.innerHTML = card1 + card2 + card3;
 }
 
-/* ============ SCHEDULE CARD (day tabs) ============ */
-let scheduleTabs = [];
-let scheduleTabIndex = 0;
-function initScheduleTabs(today){
+/* ============ SCHEDULE CARD (quick-select tabs) ============ */
+let quickTabs = [];
+function initQuickTabs(today){
   const nsd = nextSchoolDay(today);
-  scheduleTabs = [today];
-  if(nsd) scheduleTabs.push(nsd);
+  quickTabs = [today];
+  if(nsd) quickTabs.push(nsd);
 }
 function currentPeriodIndex(classes, isToday){
   if(!isToday) return null;
@@ -665,17 +617,35 @@ function timelineHTML(classes, highlight){
   }).join('') + `</div>`;
 }
 function renderScheduleCard(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const isToday = dateKey(selectedDate) === dateKey(today);
+
   const el = document.getElementById('dayTabs');
-  el.innerHTML = scheduleTabs.map((d,i) => `<button class="day-tab${i===scheduleTabIndex?' active':''}" data-i="${i}">${fmtTab(d)}</button>`).join('');
+  el.innerHTML = quickTabs.map(d => {
+    const active = dateKey(d) === dateKey(selectedDate) ? ' active' : '';
+    return `<button class="day-tab${active}" data-date="${dateKey(d)}">${fmtTab(d)}</button>`;
+  }).join('');
   el.querySelectorAll('.day-tab').forEach(btn => {
-    btn.addEventListener('click', () => { scheduleTabIndex = Number(btn.dataset.i); renderScheduleCard(); });
+    btn.addEventListener('click', () => {
+      const [yy,mm,dd] = btn.dataset.date.split('-').map(Number);
+      selectDate(new Date(yy, mm-1, dd));
+    });
   });
-  const info = describeDate(scheduleTabs[scheduleTabIndex]);
+
+  const info = describeDate(selectedDate);
+  document.getElementById('scheduleTitle').textContent = isToday ? "Today's Schedule" : `Schedule — ${fmtShort(selectedDate)}`;
   document.getElementById('rotPill').textContent = info.status==='school' ? `DAY ${info.num} · ROT ${info.rot}` : '';
   document.getElementById('rotPill').style.display = info.status==='school' ? '' : 'none';
-  document.getElementById('scheduleBody').innerHTML = info.status==='school'
-    ? timelineHTML(info.classes, currentPeriodIndex(info.classes, scheduleTabIndex===0))
-    : bodyForInfoStatusOnly(info);
+
+  if(info.status==='school'){
+    let extra = '';
+    if(info.milestone) extra += `<div class="status-line" style="margin-bottom:12px;">🎒 ${info.milestone}</div>`;
+    if(info.halfDay) extra += `<div class="status-line" style="margin-bottom:12px;">${info.halfDay}</div>`;
+    if(info.quarterEnd) extra += `<div class="status-line" style="margin-bottom:12px;">${info.quarterEnd}</div>`;
+    document.getElementById('scheduleBody').innerHTML = extra + timelineHTML(info.classes, currentPeriodIndex(info.classes, isToday));
+  } else {
+    document.getElementById('scheduleBody').innerHTML = bodyForInfoStatusOnly(info);
+  }
 }
 function bodyForInfoStatusOnly(info){
   if(info.status==='off') return `<div class="status-line off">No school — <b>${info.off.label}</b>.</div>`;
@@ -885,11 +855,7 @@ function renderCalendar(){
 function selectDate(d){
   selectedDate = d;
   renderCalendar();
-  renderDetail(d);
-}
-function renderDetail(d){
-  document.getElementById('detailDate').textContent = fmtLong(d);
-  document.getElementById('detailBody').innerHTML = bodyForInfo(describeDate(d));
+  renderScheduleCard();
 }
 document.getElementById('prevBtn').addEventListener('click', () => { currentMonthIndex = Math.max(0, currentMonthIndex-1); renderCalendar(); });
 document.getElementById('nextBtn').addEventListener('click', () => { currentMonthIndex = Math.min(MONTHS.length-1, currentMonthIndex+1); renderCalendar(); });
@@ -904,14 +870,12 @@ document.getElementById('todayBtn').addEventListener('click', () => {
 /* ============ INIT ============ */
 const {today} = renderTopPills();
 renderStats(today);
-initScheduleTabs(today);
-renderScheduleCard();
+initQuickTabs(today);
 renderBusCard();
 renderTeacherCard();
 renderLegendCard(today);
 renderUpcoming2(today);
 loadWeather();
-renderCalendar();
 selectDate(today);
 </script>
 </body>
