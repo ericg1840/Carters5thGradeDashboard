@@ -177,6 +177,15 @@ PM Drop-off: 4:05 PM
 No day-of-week restriction was listed on the Skyward busing page, so this is
 shown as applying every school day.
 
+### Homeroom teacher contact
+
+```
+Name:   Brian Kraeer
+Role:   Homeroom · Target Time / Pro Social · Social Studies — Rm W252
+Email:  bkrae@spring-ford.net (primary contact)
+Phone:  610-705-6003 x3503 (school phone)
+```
+
 ### Weather
 
 Live current conditions + today's high/low for **Royersford, PA** (lat
@@ -208,10 +217,16 @@ key and works fine called directly from client-side JS. Imperial units,
   Oswald/Source Sans, removed per request to match Apple's native look and
   cut a network request).
 - **Layout:** top bar (title + live date/status pill) → info banner → weather
-  strip → 3 stat cards (Next School Day / Next Day Off / School Days Left) →
-  two-column section (Today's Schedule with day tabs on the left; Bus Info,
-  Specials Legend, Upcoming on the right) → full interactive month calendar
-  with a click-to-inspect detail panel below.
+  strip → 3 stat cards (Up Next / Next Day Off / School Year, each with an
+  icon, badge, and the School Year card getting a progress bar) →
+  two-column section — left column is the hero: Today's Schedule as a
+  vertical timeline (time on the left, connecting dots, current/up-next
+  period highlighted using the two known bell-time blocks) followed by the
+  compact mini-calendar and the Day Detail panel; right column holds Bus
+  Info, Homeroom Teacher, Specials Legend, and What's Coming Up.
+- **Card borders:** `rgba(255,255,255,0.13)` (not gold-tinted) so cards read
+  as distinct surfaces against the navy background, plus a subtle inset
+  top-highlight for depth.
 - Each subject/special has its own icon + color defined in `SUBJECT_STYLE` in
   the JS (e.g. Art = 🎨 purple, Math = 📐 teal) — reuse these if you add UI
   elsewhere referencing a subject.

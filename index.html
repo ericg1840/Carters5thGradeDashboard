@@ -32,7 +32,8 @@ body{
 .wrap{max-width:1080px;margin:0 auto;}
 .card{
   background:linear-gradient(155deg, var(--navy-800), var(--navy-900) 75%);
-  border:1px solid var(--line); border-radius:16px; box-shadow:0 16px 34px -20px rgba(0,0,0,0.6);
+  border:1px solid rgba(255,255,255,0.13); border-radius:16px;
+  box-shadow:0 16px 34px -20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 /* ---- topbar ---- */
@@ -74,30 +75,63 @@ body{
 
 /* ---- stats row ---- */
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
-.stat-card{padding:14px 15px;}
-.stat-label{font-family:var(--font-main);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(246,241,228,0.45);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
-.stat-value{font-family:var(--font-main);font-size:19px;font-weight:600;color:var(--cream);line-height:1.3;}
-.stat-sub{font-size:14px;color:var(--gold-300);margin-top:4px;}
+.stat-card{padding:16px 17px;display:flex;flex-direction:column;gap:9px;}
+.stat-top{display:flex;align-items:center;gap:11px;}
+.stat-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 4px 10px -4px rgba(0,0,0,0.5);}
+.stat-textcol{flex:1;min-width:0;}
+.stat-label{font-family:var(--font-main);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(246,241,228,0.45);margin-bottom:3px;}
+.stat-value{font-family:var(--font-main);font-size:15px;font-weight:700;color:var(--cream);line-height:1.3;}
+.stat-badge{font-family:var(--font-main);font-size:10.5px;font-weight:700;letter-spacing:.03em;padding:4px 10px;border-radius:999px;background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);white-space:nowrap;flex-shrink:0;}
+.stat-percent{font-family:var(--font-main);font-size:21px;font-weight:800;color:var(--cream);flex-shrink:0;}
+.stat-sub{font-size:13.5px;color:var(--gold-300);padding-left:49px;}
+.stat-progress{height:5px;border-radius:999px;background:rgba(255,255,255,0.08);overflow:hidden;}
+.stat-progress-fill{height:100%;background:linear-gradient(90deg,var(--gold-400),var(--gold-500));border-radius:999px;}
 
 /* ---- two column ---- */
 .two-col{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:start;}
 @media (max-width:800px){.two-col{grid-template-columns:1fr;}}
+.col-main{display:flex;flex-direction:column;gap:0;min-width:0;}
 .col-side{display:flex;flex-direction:column;gap:16px;}
 
-/* ---- schedule card ---- */
-.schedule-card{padding:18px;}
-.schedule-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap;}
-.schedule-title{font-family:var(--font-main);font-size:19px;font-weight:600;color:var(--cream);}
+/* ---- schedule card (hero) ---- */
+.schedule-card{
+  padding:24px; position:relative; overflow:hidden;
+  background:linear-gradient(160deg, var(--navy-700), var(--navy-900) 82%);
+  border-color:rgba(255,255,255,0.16);
+}
+.schedule-card::before{
+  content:""; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--gold-400),var(--gold-500));
+}
+.schedule-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px;flex-wrap:wrap;}
+.schedule-title{font-family:var(--font-main);font-size:24px;font-weight:700;color:var(--cream);letter-spacing:.01em;}
 .rot-pill{font-family:var(--font-main);font-size:13.5px;font-weight:600;padding:5px 12px;border-radius:999px;background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);white-space:nowrap;}
-.day-tabs{display:flex;gap:8px;margin-bottom:14px;}
+.day-tabs{display:flex;gap:8px;margin-bottom:16px;}
 .day-tab{font-family:var(--font-main);font-size:14.5px;padding:7px 16px;border-radius:999px;background:var(--navy-700);border:1px solid var(--line);color:rgba(246,241,228,0.6);cursor:pointer;}
 .day-tab.active{background:var(--cream);color:var(--navy-950);border-color:var(--cream);}
+
+/* ---- timeline (hero schedule) ---- */
+.timeline{display:flex;flex-direction:column;}
+.tl-row{display:grid;grid-template-columns:58px 18px 42px 1fr auto;column-gap:11px;position:relative;padding:11px 4px;}
+.tl-time{font-family:var(--font-main);font-size:11.5px;line-height:1.3;color:rgba(246,241,228,0.45);text-align:right;padding-top:10px;}
+.tl-track{display:flex;flex-direction:column;align-items:center;}
+.tl-dot{width:11px;height:11px;border-radius:50%;background:var(--navy-900);border:2px solid rgba(205,164,84,0.55);margin-top:11px;flex-shrink:0;z-index:1;}
+.tl-connector{width:2px;flex:1;background:rgba(255,255,255,0.1);margin-top:2px;}
+.tl-row:last-child .tl-connector{display:none;}
+.tl-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.tl-main{min-width:0;padding-top:2px;}
+.tl-name{font-family:var(--font-main);font-size:19px;font-weight:700;color:var(--cream);}
+.tl-sub{font-size:14px;color:rgba(246,241,228,0.5);margin-top:2px;}
+.tl-badge{align-self:center;font-family:var(--font-main);font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:5px 10px;border-radius:999px;background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);white-space:nowrap;text-transform:uppercase;}
+.tl-row.current{background:rgba(205,164,84,0.09);border-radius:12px;}
+.tl-row.current .tl-dot{background:var(--gold-400);border-color:var(--gold-400);box-shadow:0 0 0 5px rgba(205,164,84,0.22);}
+.tl-row.current .tl-name{color:var(--gold-300);}
 
 .period-row{display:flex;align-items:center;gap:12px;background:var(--navy-800);border:1px solid rgba(255,255,255,0.05);border-radius:10px;padding:10px 12px;margin-bottom:8px;}
 .p-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
 .p-main{flex:1;min-width:0;}
-.p-name{font-family:var(--font-main);font-size:17px;font-weight:600;color:var(--cream);}
-.p-sub{font-size:14px;color:rgba(246,241,228,0.5);margin-top:1px;}
+.p-name{font-family:var(--font-main);font-size:19px;font-weight:700;color:var(--cream);}
+.p-sub{font-size:15px;color:rgba(246,241,228,0.5);margin-top:1px;}
 .p-time{font-family:var(--font-main);font-size:13.5px;color:var(--gold-300);text-align:right;flex-shrink:0;white-space:nowrap;}
 .status-line{font-size:16.5px;padding:11px 14px;border-radius:10px;background:rgba(205,164,84,0.08);border:1px solid var(--line);color:rgba(246,241,228,0.8);}
 .status-line.off{background:rgba(205,164,84,0.14);}
@@ -112,8 +146,8 @@ body{
 .bus-row2:first-of-type{border-top:none;padding-top:10px;}
 .bus-circle{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-main);font-size:12.5px;font-weight:700;flex-shrink:0;color:#fff;}
 .bus-main{flex:1;min-width:0;}
-.bus-label{font-family:var(--font-main);font-size:16px;font-weight:600;color:var(--cream);}
-.bus-sub{font-size:13.5px;color:rgba(246,241,228,0.5);}
+.bus-label{font-family:var(--font-main);font-size:18px;font-weight:700;color:var(--cream);}
+.bus-sub{font-size:15px;color:rgba(246,241,228,0.5);}
 .bus-time{font-family:var(--font-main);font-size:14.5px;color:var(--gold-300);flex-shrink:0;white-space:nowrap;}
 
 .legend-sub{font-size:13.5px;color:rgba(246,241,228,0.4);margin:2px 0 10px;}
@@ -121,8 +155,8 @@ body{
 .legend-row:first-of-type{border-top:none;padding-top:0;}
 .legend-num{width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--font-main);font-size:13.5px;font-weight:700;color:#fff;flex-shrink:0;}
 .legend-main{flex:1;min-width:0;}
-.legend-name{font-family:var(--font-main);font-size:15.5px;font-weight:600;color:var(--cream);display:flex;align-items:center;gap:6px;}
-.legend-sub2{font-size:13px;color:rgba(246,241,228,0.45);}
+.legend-name{font-family:var(--font-main);font-size:18px;font-weight:700;color:var(--cream);display:flex;align-items:center;gap:6px;}
+.legend-sub2{font-size:14.5px;color:rgba(246,241,228,0.45);}
 .legend-tag{font-size:11.5px;font-family:var(--font-main);font-weight:600;padding:3px 7px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
 .tag-today{background:#8b7ab8;color:#fff;}
 .tag-alt{background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);}
@@ -133,7 +167,7 @@ body{
 .up-num{width:22px;height:22px;border-radius:50%;background:var(--navy-700);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12.5px;}
 .up-main2{flex:1;min-width:0;}
 .up-date2{font-family:var(--font-main);font-size:13px;color:rgba(246,241,228,0.45);}
-.up-name2{font-family:var(--font-main);font-size:15.5px;font-weight:600;color:var(--cream);}
+.up-name2{font-family:var(--font-main);font-size:17px;font-weight:700;color:var(--cream);}
 .up-days{font-size:13px;color:rgba(246,241,228,0.4);}
 .pill-tag{font-size:11.5px;font-family:var(--font-main);font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
 .tag-noschool{background:var(--rose-dim);color:#e58ba0;border:1px solid rgba(193,84,106,0.35);}
@@ -142,41 +176,39 @@ body{
 
 .mini-note{font-size:13px;color:rgba(246,241,228,0.4);line-height:1.5;padding:11px 13px;background:rgba(205,164,84,0.05);border:1px solid var(--line);border-radius:10px;}
 
-/* ---- calendar (unchanged from prior build) ---- */
+/* ---- calendar (compact mini-calendar) ---- */
 .section-label{font-family:var(--font-main);font-size:13.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,228,0.5);margin:26px 4px 10px;}
-.cal-card{padding:18px;margin-top:4px;}
-.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px;flex-wrap:wrap;}
-.cal-month{font-family:var(--font-main);font-size:20.5px;font-weight:600;color:var(--cream);letter-spacing:.02em;min-width:150px;text-align:center;}
+.cal-card{padding:16px 18px;margin-top:4px;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap;}
+.cal-month{font-family:var(--font-main);font-size:17px;font-weight:600;color:var(--cream);letter-spacing:.02em;min-width:0;text-align:center;}
 .nav-btns{display:flex;gap:6px;align-items:center;}
-.nav-btn{background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);font-family:var(--font-main);font-size:17px;border-radius:8px;padding:7px 12px;cursor:pointer;}
+.nav-btn{background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);font-family:var(--font-main);font-size:15px;border-radius:8px;padding:6px 11px;cursor:pointer;}
 .nav-btn:hover{background:var(--navy-600);}
-.nav-btn.today-btn{font-size:13.5px;padding:7px 10px;letter-spacing:.05em;text-transform:uppercase;}
-.cal-weekdays{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:6px;}
-.cal-weekdays span{text-align:center;font-family:var(--font-main);font-size:13px;letter-spacing:.1em;color:rgba(246,241,228,0.4);text-transform:uppercase;}
-.cal-grid{display:flex;flex-direction:column;gap:6px;}
-.cal-week{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
-.cal-cell{position:relative;border-radius:9px;min-height:56px;padding:5px 6px;cursor:pointer;background:var(--navy-800);border:1px solid rgba(255,255,255,0.05);display:flex;flex-direction:column;justify-content:space-between;transition:transform .1s ease;}
-.cal-cell:hover{transform:translateY(-1px);}
+.nav-btn.today-btn{font-size:11.5px;padding:6px 9px;letter-spacing:.05em;text-transform:uppercase;}
+.cal-weekdays{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:4px;}
+.cal-weekdays span{text-align:center;font-family:var(--font-main);font-size:11px;letter-spacing:.08em;color:rgba(246,241,228,0.4);text-transform:uppercase;}
+.cal-grid{display:flex;flex-direction:column;gap:4px;}
+.cal-week{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;}
+.cal-cell{position:relative;border-radius:9px;height:38px;cursor:pointer;background:transparent;border:1px solid transparent;display:flex;align-items:center;justify-content:center;transition:background .1s ease;}
+.cal-cell:hover{background:rgba(255,255,255,0.05);}
 .cal-cell.empty{visibility:hidden;cursor:default;}
-.cal-cell.muted{opacity:.35;cursor:default;}
-.cal-cell.muted:hover{transform:none;}
-.cal-cell .dnum{font-family:var(--font-main);font-size:16px;font-weight:600;color:var(--cream);}
-.cal-cell .dtag{font-size:10.5px;line-height:1.15;color:rgba(246,241,228,0.7);}
+.cal-cell.muted{opacity:.3;cursor:default;}
+.cal-cell.muted:hover{background:transparent;}
+.cal-cell .dnum{font-family:var(--font-main);font-size:14px;font-weight:600;color:var(--cream);}
 .cal-cell.closed{background:linear-gradient(160deg, var(--gold-400), var(--gold-500));}
-.cal-cell.closed .dnum,.cal-cell.closed .dtag{color:var(--navy-950);}
+.cal-cell.closed .dnum{color:var(--navy-950);}
 .cal-cell.noschool{background:var(--gold-dim-2);}
-.cal-cell.noschool .dtag{color:var(--gold-100);}
-.cal-cell.inservice{background:var(--steel-dim);border-color:rgba(76,112,150,0.4);}
-.cal-cell.inservice .dtag{color:#bcd2e6;}
-.cal-cell.halfday::after{content:"";position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 16px 16px 0;border-color:transparent var(--gold-400) transparent transparent;border-top-right-radius:9px;}
-.cal-cell.today{box-shadow:0 0 0 2px var(--gold-400) inset;}
+.cal-cell.inservice{background:var(--steel-dim);}
+.cal-cell.halfday::after{content:"";position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 9px 9px 0;border-color:transparent var(--gold-400) transparent transparent;border-top-right-radius:9px;}
+.cal-cell.today{box-shadow:0 0 0 2px var(--gold-400) inset;background:rgba(205,164,84,0.14);}
+.cal-cell.today .dnum{color:var(--gold-100);font-weight:800;}
 .cal-cell.selected{box-shadow:0 0 0 2px #fff inset;}
-.cal-cell .rot{font-family:var(--font-main);font-size:11.5px;color:var(--gold-300);}
-.cal-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);}
-.leg-item{display:flex;align-items:center;gap:6px;font-size:13.5px;color:rgba(246,241,228,0.6);}
-.leg-swatch{width:12px;height:12px;border-radius:4px;flex-shrink:0;}
+.cal-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:12.5px;color:rgba(246,241,228,0.6);}
+.leg-swatch{width:11px;height:11px;border-radius:4px;flex-shrink:0;}
 .detail-card{padding:18px;margin-top:14px;}
-.detail-date{font-family:var(--font-main);font-size:19px;font-weight:600;color:var(--cream);margin-bottom:10px;}
+.detail-eyebrow{font-family:var(--font-main);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(246,241,228,0.45);margin-bottom:5px;}
+.detail-date{font-family:var(--font-main);font-size:20px;font-weight:700;color:var(--cream);margin-bottom:10px;}
 
 .foot{margin-top:22px;padding:16px 18px;border-radius:12px;background:rgba(205,164,84,0.06);border:1px solid var(--line);font-size:14.5px;line-height:1.6;color:rgba(246,241,228,0.6);}
 .foot p{margin:0 0 8px;}
@@ -191,16 +223,21 @@ body{
   .date-pill{white-space:normal;}
   .up-date2{display:block;}
   .card{border-radius:13px;}
-  .schedule-card,.side-card,.cal-card,.detail-card{padding:14px;}
-  .cal-week{gap:5px;}
-  .cal-grid{gap:5px;}
-  .cal-cell{min-height:52px;padding:6px 5px;border-radius:8px;}
-  .cal-cell .dnum{font-size:15px;}
-  .cal-weekdays{gap:5px;}
+  .schedule-card{padding:18px;}
+  .side-card,.cal-card,.detail-card{padding:14px;}
+  .schedule-title{font-size:20px;}
+  .tl-row{grid-template-columns:44px 16px 36px 1fr auto;column-gap:8px;}
+  .tl-icon{width:36px;height:36px;font-size:17px;}
+  .tl-name{font-size:17px;}
+  .cal-week{gap:4px;}
+  .cal-grid{gap:4px;}
+  .cal-cell{height:34px;border-radius:8px;}
+  .cal-cell .dnum{font-size:13px;}
+  .cal-weekdays{gap:4px;}
   .cal-nav{gap:6px;}
-  .cal-month{font-size:17px;min-width:0;flex:1;}
-  .nav-btn{padding:6px 10px;}
-  .cal-legend{gap:10px 14px;}
+  .cal-month{font-size:15px;flex:1;}
+  .nav-btn{padding:6px 9px;}
+  .cal-legend{gap:8px 12px;}
 }
 </style>
 </head>
@@ -232,12 +269,44 @@ body{
         <div class="day-tabs" id="dayTabs"></div>
         <div id="scheduleBody"></div>
       </div>
+
+      <p class="section-label">Full-Year Calendar</p>
+      <div class="card cal-card">
+        <div class="cal-nav">
+          <div class="nav-btns"><button class="nav-btn" id="prevBtn">‹</button></div>
+          <div class="cal-month" id="calMonthLabel"></div>
+          <div class="nav-btns">
+            <button class="nav-btn today-btn" id="todayBtn">Today</button>
+            <button class="nav-btn" id="nextBtn">›</button>
+          </div>
+        </div>
+        <div class="cal-weekdays"><span>M</span><span>T</span><span>W</span><span>Th</span><span>F</span></div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="cal-legend">
+          <div class="leg-item"><span class="leg-swatch" style="background:linear-gradient(160deg,var(--gold-400),var(--gold-500))"></span>Closed</div>
+          <div class="leg-item"><span class="leg-swatch" style="background:var(--gold-dim-2)"></span>No school (students)</div>
+          <div class="leg-item"><span class="leg-swatch" style="background:var(--steel-dim);border:1px solid rgba(76,112,150,0.5)"></span>Staff in-service</div>
+          <div class="leg-item"><span class="leg-swatch" style="background:var(--navy-800);position:relative;overflow:hidden;"><span style="position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 12px 12px 0;border-color:transparent var(--gold-400) transparent transparent;"></span></span>Half day</div>
+          <div class="leg-item"><span class="leg-swatch" style="background:var(--navy-800);box-shadow:0 0 0 2px var(--gold-400) inset"></span>Today</div>
+        </div>
+      </div>
+
+      <div class="card detail-card">
+        <div class="detail-eyebrow">Day Detail</div>
+        <div class="detail-date" id="detailDate"></div>
+        <div id="detailBody"></div>
+      </div>
     </div>
 
     <div class="col-side">
       <div class="card side-card">
         <div class="side-head"><span>Bus Info · 937</span><span class="route-badge" id="routeBadge"></span></div>
         <div id="busBody"></div>
+      </div>
+
+      <div class="card side-card">
+        <div class="side-head"><span>Homeroom Teacher</span></div>
+        <div id="teacherBody"></div>
       </div>
 
       <div class="card side-card">
@@ -256,38 +325,12 @@ body{
     </div>
   </div>
 
-  <p class="section-label">Full-Year Calendar</p>
-  <div class="card cal-card">
-    <div class="cal-nav">
-      <div class="nav-btns"><button class="nav-btn" id="prevBtn">‹</button></div>
-      <div class="cal-month" id="calMonthLabel"></div>
-      <div class="nav-btns">
-        <button class="nav-btn today-btn" id="todayBtn">Today</button>
-        <button class="nav-btn" id="nextBtn">›</button>
-      </div>
-    </div>
-    <div class="cal-weekdays"><span>M</span><span>T</span><span>W</span><span>Th</span><span>F</span></div>
-    <div class="cal-grid" id="calGrid"></div>
-    <div class="cal-legend">
-      <div class="leg-item"><span class="leg-swatch" style="background:linear-gradient(160deg,var(--gold-400),var(--gold-500))"></span>Closed</div>
-      <div class="leg-item"><span class="leg-swatch" style="background:var(--gold-dim-2)"></span>No school (students)</div>
-      <div class="leg-item"><span class="leg-swatch" style="background:var(--steel-dim);border:1px solid rgba(76,112,150,0.5)"></span>Staff in-service</div>
-      <div class="leg-item"><span class="leg-swatch" style="background:var(--navy-800);position:relative;overflow:hidden;"><span style="position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 12px 12px 0;border-color:transparent var(--gold-400) transparent transparent;"></span></span>Half day</div>
-      <div class="leg-item"><span class="leg-swatch" style="background:var(--navy-800);box-shadow:0 0 0 2px var(--gold-400) inset"></span>Today</div>
-    </div>
-  </div>
-
-  <div class="card detail-card">
-    <div class="detail-date" id="detailDate"></div>
-    <div id="detailBody"></div>
-  </div>
-
   <div class="foot">
     <p><b>School counting note:</b> the district's calendar states 180 official student days for 2026–2027. Working day-by-day through every closure, holiday, break, and in-service day listed on the printed calendar, this dashboard counts 179 — a small, common gap in published calendars (often a reserved contingency/make-up day). Let me know if the district confirms an extra instructional day and I'll adjust it.</p>
     <p><b>Rotation-day assumption:</b> Carter's class schedule runs on a 6-day cycle (Day 1–6) rather than the calendar week. This dashboard assumes the cycle only advances on days students actually attend — so it pauses over weekends and breaks and simply picks back up — starting Day 1 on Aug 24, 2026 (the first day of school).</p>
     <p><b>Days 3 &amp; 6 specials:</b> Library (Rm LIB) and Ram Quest with Shayne Tobin (Rm W269) alternate on these days; the printed schedule doesn't say which falls on a given week.</p>
     <p><b>5th-grade events:</b> the district calendar only lists district-wide dates — no open house, assemblies, or field trip dates were on it, so none are shown here. Tell me any dates from the school and I'll add them in.</p>
-    <p><b>Busing:</b> from Carter's Skyward busing page — Bus 818, pickup 8:04 AM / drop-off 4:26 PM at Crown Pointe Dr &amp; N Lewis Rd. The page didn't restrict this to specific days, so it's shown on every school day; let me know if that changes.</p>
+    <p><b>Busing:</b> from Carter's Skyward busing page — Bus 937, pickup 8:04 AM / drop-off 4:05 PM at Crown Pointe Dr &amp; N Lewis Rd. The page didn't restrict this to specific days, so it's shown on every school day; let me know if that changes.</p>
     <p><b>Bell times:</b> Skyward lists ELA as an 8:50 AM–12:20 PM block and Target Time/Pro Social as 12:21–3:40 PM, but doesn't give individual start/end times for Homeroom, Math, Science, Specials, or Social Studies — so only the two block times are shown; the rest are listed in order without a clock time rather than an invented one.</p>
   </div>
 
@@ -342,6 +385,8 @@ const QUARTER_ENDS = [
 const MILESTONES = [ [D(2026,7,24), 'First Day of School!'] ];
 
 const BUS_INFO = { number:'937', route:'SFIS/UPE 937 SP', stop:'Crown Pointe Dr & N Lewis Rd', amTime:'8:04 AM', pmTime:'4:05 PM' };
+
+const TEACHER_INFO = { name:'Brian Kraeer', role:'Homeroom · Target Time · Social Studies', room:'Rm W252', email:'bkrae@spring-ford.net', phone:'610-705-6003', ext:'3503' };
 
 const SUBJECT_STYLE = {
   home:   {icon:'🏠', color:'#8b7ab8'},
@@ -511,30 +556,76 @@ function renderStats(today){
   const recentNum = mostRecentSchoolDayNum(today);
   const remaining = Math.max(TOTAL_SCHOOL_DAYS - recentNum, 0);
   const afterYear = today.getTime() > SCHOOL_YEAR_END.getTime();
+  const beforeYear = today.getTime() < SCHOOL_YEAR_START.getTime();
 
-  let nsdSub = '';
-  let nsdHTML;
+  let card1;
   if(nsd){
     const nsdNum = schoolDayNumberMap[dateKey(nsd)];
     const nsdRot = rotationDayFor(nsdNum);
     const special = SCHEDULE[nsdRot][5];
     const s = SUBJECT_STYLE[special.kind];
-    nsdHTML = `${fmtShort(nsd)} — Day ${nsdNum} / Rotation ${nsdRot}<div class="stat-sub">${s.icon} ${special.subject} with ${special.teacher}</div>`;
-  } else { nsdHTML = `School year complete`; }
+    card1 = `
+      <div class="card stat-card">
+        <div class="stat-top">
+          <div class="stat-icon" style="background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);">⭐</div>
+          <div class="stat-textcol">
+            <div class="stat-label">Up Next</div>
+            <div class="stat-value">${fmtShort(nsd)} — Day ${nsdNum} / Rotation ${nsdRot}</div>
+          </div>
+          <div class="stat-badge">R${nsdRot}</div>
+        </div>
+        <div class="stat-sub">${s.icon} ${special.subject} with ${special.teacher}</div>
+      </div>`;
+  } else {
+    card1 = `
+      <div class="card stat-card">
+        <div class="stat-top">
+          <div class="stat-icon" style="background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);">⭐</div>
+          <div class="stat-textcol"><div class="stat-label">Up Next</div><div class="stat-value">School year complete</div></div>
+        </div>
+      </div>`;
+  }
 
-  const ndoHTML = ndo
-    ? `${fmtShort(ndo.date)} — ${ndo.label}<div class="stat-sub">in ${Math.round((ndo.date-today)/86400000)} day${Math.round((ndo.date-today)/86400000)===1?'':'s'} · No school</div>`
-    : `None scheduled`;
+  let card2;
+  if(ndo){
+    const days = Math.round((ndo.date-today)/86400000);
+    card2 = `
+      <div class="card stat-card">
+        <div class="stat-top">
+          <div class="stat-icon" style="background:#cd8f4a33;color:#cd8f4a;">🎉</div>
+          <div class="stat-textcol">
+            <div class="stat-label">Next Day Off</div>
+            <div class="stat-value">${fmtShort(ndo.date)} — ${ndo.label}</div>
+          </div>
+          <div class="stat-badge">No School</div>
+        </div>
+        <div class="stat-sub">in ${days} day${days===1?'':'s'}</div>
+      </div>`;
+  } else {
+    card2 = `
+      <div class="card stat-card">
+        <div class="stat-top">
+          <div class="stat-icon" style="background:#cd8f4a33;color:#cd8f4a;">🎉</div>
+          <div class="stat-textcol"><div class="stat-label">Next Day Off</div><div class="stat-value">None scheduled</div></div>
+        </div>
+      </div>`;
+  }
 
-  const remHTML = afterYear
-    ? `🎉 Done!<div class="stat-sub">See you in fall</div>`
-    : `${remaining} left / ${TOTAL_SCHOOL_DAYS} total<div class="stat-sub">school days</div>`;
+  const percent = afterYear ? 100 : beforeYear ? 0 : Math.round((recentNum/TOTAL_SCHOOL_DAYS)*100);
+  const card3 = `
+    <div class="card stat-card">
+      <div class="stat-top">
+        <div class="stat-icon" style="background:rgba(255,255,255,0.92);color:var(--navy-800);">🎓</div>
+        <div class="stat-textcol">
+          <div class="stat-label">School Year</div>
+          <div class="stat-value">${afterYear ? '🎉 Done!' : `${remaining} left / ${TOTAL_SCHOOL_DAYS} total`}</div>
+        </div>
+        <div class="stat-percent">${percent}%</div>
+      </div>
+      <div class="stat-progress"><div class="stat-progress-fill" style="width:${percent}%"></div></div>
+    </div>`;
 
-  el.innerHTML = `
-    <div class="card stat-card"><div class="stat-label">📋 Next School Day</div><div class="stat-value">${nsdHTML}</div></div>
-    <div class="card stat-card"><div class="stat-label">🕐 Next Day Off</div><div class="stat-value">${ndoHTML}</div></div>
-    <div class="card stat-card"><div class="stat-label">🎓 School Days Left</div><div class="stat-value">${remHTML}</div></div>
-  `;
+  el.innerHTML = card1 + card2 + card3;
 }
 
 /* ============ SCHEDULE CARD (day tabs) ============ */
@@ -544,6 +635,34 @@ function initScheduleTabs(today){
   const nsd = nextSchoolDay(today);
   scheduleTabs = [today];
   if(nsd) scheduleTabs.push(nsd);
+}
+function currentPeriodIndex(classes, isToday){
+  if(!isToday) return null;
+  const now = new Date();
+  const mins = now.getHours()*60 + now.getMinutes();
+  const elaIdx = classes.findIndex(p => p.num==='1');
+  const p2Idx = classes.findIndex(p => p.num==='2');
+  if(mins < 8*60+50) return {idx:0, tag:'Up Next'};
+  if(mins < 12*60+20) return {idx:elaIdx, tag:'Now'};
+  if(mins < 12*60+21) return {idx:p2Idx, tag:'Up Next'};
+  if(mins < 15*60+40) return {idx:p2Idx, tag:'Now'};
+  return null;
+}
+function timelineHTML(classes, highlight){
+  return `<div class="timeline">` + classes.map((p,i) => {
+    const s = SUBJECT_STYLE[p.kind];
+    const isCurrent = highlight && i === highlight.idx;
+    return `<div class="tl-row${isCurrent?' current':''}">
+      <div class="tl-time">${p.time || ''}</div>
+      <div class="tl-track"><div class="tl-dot"></div><div class="tl-connector"></div></div>
+      <div class="tl-icon" style="background:${s.color}33;color:${s.color}">${s.icon}</div>
+      <div class="tl-main">
+        <div class="tl-name">${p.subject}</div>
+        <div class="tl-sub">${p.teacher} · ${p.room}</div>
+      </div>
+      ${isCurrent ? `<div class="tl-badge">${highlight.tag}</div>` : ''}
+    </div>`;
+  }).join('') + `</div>`;
 }
 function renderScheduleCard(){
   const el = document.getElementById('dayTabs');
@@ -555,7 +674,7 @@ function renderScheduleCard(){
   document.getElementById('rotPill').textContent = info.status==='school' ? `DAY ${info.num} · ROT ${info.rot}` : '';
   document.getElementById('rotPill').style.display = info.status==='school' ? '' : 'none';
   document.getElementById('scheduleBody').innerHTML = info.status==='school'
-    ? periodRowsHTML(info.classes)
+    ? timelineHTML(info.classes, currentPeriodIndex(info.classes, scheduleTabIndex===0))
     : bodyForInfoStatusOnly(info);
 }
 function bodyForInfoStatusOnly(info){
@@ -578,6 +697,23 @@ function renderBusCard(){
       <div class="bus-circle" style="background:#cd8f4a">PM</div>
       <div class="bus-main"><div class="bus-label">Drop-off</div><div class="bus-sub">${BUS_INFO.stop}</div></div>
       <div class="bus-time">${BUS_INFO.pmTime}</div>
+    </div>`;
+}
+
+/* ============ TEACHER CARD ============ */
+function renderTeacherCard(){
+  document.getElementById('teacherBody').innerHTML = `
+    <div class="period-row">
+      <div class="p-icon" style="background:#8b7ab833;color:#8b7ab8">🏠</div>
+      <div class="p-main"><div class="p-name">${TEACHER_INFO.name}</div><div class="p-sub">${TEACHER_INFO.role} · ${TEACHER_INFO.room}</div></div>
+    </div>
+    <div class="bus-row2">
+      <div class="bus-circle" style="background:#4a9d6f">✉️</div>
+      <div class="bus-main"><div class="bus-label"><a href="mailto:${TEACHER_INFO.email}" style="color:inherit;text-decoration:none;">${TEACHER_INFO.email}</a></div><div class="bus-sub">Primary contact</div></div>
+    </div>
+    <div class="bus-row2">
+      <div class="bus-circle" style="background:#cd8f4a">📞</div>
+      <div class="bus-main"><div class="bus-label"><a href="tel:${TEACHER_INFO.phone},${TEACHER_INFO.ext}" style="color:inherit;text-decoration:none;">${TEACHER_INFO.phone}</a></div><div class="bus-sub">School phone · ext. ${TEACHER_INFO.ext}</div></div>
     </div>`;
 }
 
@@ -707,17 +843,14 @@ function buildMonthGrid(year, month){
   if(any) weeks.push(week);
   return weeks;
 }
-function cellClassAndTag(d){
+function cellClassFor(d){
   const info = describeDate(d);
-  if(info.status==='before' || info.status==='after') return {cls:'muted', tag:''};
-  if(info.status==='weekend') return {cls:'muted', tag:''};
+  if(info.status==='before' || info.status==='after') return 'muted';
+  if(info.status==='weekend') return 'muted';
   if(info.status==='off') {
-    const typeCls = info.off.type==='inservice' ? 'inservice' : info.off.type==='noschool' ? 'noschool' : 'closed';
-    const tagText = info.off.type==='inservice' ? 'Staff Day' : info.off.type==='noschool' ? 'No School' : 'Closed';
-    return {cls:typeCls, tag:tagText};
+    return info.off.type==='inservice' ? 'inservice' : info.off.type==='noschool' ? 'noschool' : 'closed';
   }
-  let cls = ''; if(info.halfDay) cls += ' halfday';
-  return {cls:cls.trim(), tag:`D${info.rot}`, num:info.num};
+  return info.halfDay ? 'halfday' : '';
 }
 function renderCalendar(){
   const {y,m} = MONTHS[currentMonthIndex];
@@ -731,15 +864,13 @@ function renderCalendar(){
     <div class="cal-week">
       ${week.map(d => {
         if(!d) return `<div class="cal-cell empty"></div>`;
-        const {cls, tag} = cellClassAndTag(d);
+        const cls = cellClassFor(d);
         const key = dateKey(d);
         let extra = '';
         if(key===todayKey) extra += ' today';
         if(key===selKey) extra += ' selected';
         return `<div class="cal-cell ${cls}${extra}" data-date="${key}">
           <span class="dnum">${d.getDate()}</span>
-          <span class="rot">${tag && !['Closed','No School','Staff Day'].includes(tag) ? tag : ''}</span>
-          <span class="dtag">${['Closed','No School','Staff Day'].includes(tag) ? tag : ''}</span>
         </div>`;
       }).join('')}
     </div>
@@ -776,6 +907,7 @@ renderStats(today);
 initScheduleTabs(today);
 renderScheduleCard();
 renderBusCard();
+renderTeacherCard();
 renderLegendCard(today);
 renderUpcoming2(today);
 loadWeather();
