@@ -183,11 +183,24 @@ body{
 .foot p:last-child{margin-bottom:0;}
 .foot b{color:var(--gold-300);}
 
-@media (max-width:480px){
-  .stats-row{grid-template-columns:1fr;}
-  .top-pills{align-items:flex-start;}
+@media (max-width:600px){
+  body{padding:18px 10px 48px;}
+  .stats-row{grid-template-columns:1fr;gap:8px;}
+  .stat-card{padding:12px 14px;}
+  .top-pills{align-items:flex-start;width:100%;}
+  .date-pill{white-space:normal;}
   .up-date2{display:block;}
-  .cal-cell{min-height:48px;}
+  .card{border-radius:13px;}
+  .schedule-card,.side-card,.cal-card,.detail-card{padding:14px;}
+  .cal-week{gap:5px;}
+  .cal-grid{gap:5px;}
+  .cal-cell{min-height:52px;padding:6px 5px;border-radius:8px;}
+  .cal-cell .dnum{font-size:15px;}
+  .cal-weekdays{gap:5px;}
+  .cal-nav{gap:6px;}
+  .cal-month{font-size:17px;min-width:0;flex:1;}
+  .nav-btn{padding:6px 10px;}
+  .cal-legend{gap:10px 14px;}
 }
 </style>
 </head>
