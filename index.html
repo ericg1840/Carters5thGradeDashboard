@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carter's 5th Grade Dashboard</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20100%20100%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%20%3Cg%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-weight%3D%22900%22%20font-size%3D%2276%22%20text-anchor%3D%22middle%22%3E%20%3Ctext%20x%3D%2257%22%20y%3D%2276%22%20fill%3D%22%231a3a68%22%3EC%3C/text%3E%20%3Ctext%20x%3D%2253.5%22%20y%3D%2272.5%22%20fill%3D%22%23cda454%22%3EC%3C/text%3E%20%3Ctext%20x%3D%2250%22%20y%3D%2269%22%20fill%3D%22%23ffffff%22%20stroke%3D%22%2312203f%22%20stroke-width%3D%222.5%22%20paint-order%3D%22stroke%20fill%22%3EC%3C/text%3E%20%3C/g%3E%20%3C/svg%3E">
+<link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#081327">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Carter's 5th Grade">
+<style>
+:root{
+  --navy-950:#081327; --navy-900:#0c1c38; --navy-800:#122a4d; --navy-700:#1a3a68; --navy-600:#254a80;
+  --gold-500:#b98c3e; --gold-400:#cda454; --gold-300:#ddbd78; --gold-100:#f2e3bf;
+  --cream:#f6f1e4; --steel:#4c7096; --steel-dim:rgba(76,112,150,0.22);
+  --gold-dim:rgba(205,164,84,0.18); --gold-dim-2:rgba(205,164,84,0.32); --line:rgba(205,164,84,0.22);
+  --rose:#c1546a; --rose-dim:rgba(193,84,106,0.18);
+  --font-main: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; min-height:100vh;
+  background:
+    radial-gradient(1100px 500px at 15% -10%, rgba(205,164,84,0.10), transparent 60%),
+    radial-gradient(900px 600px at 100% 0%, rgba(26,58,104,0.5), transparent 55%),
+    var(--navy-950);
+  font-family:var(--font-main); color:var(--cream); padding:24px 14px 60px;
+}
+.wrap{max-width:1080px;margin:0 auto;}
+.card{
+  background:linear-gradient(155deg, var(--navy-800), var(--navy-900) 75%);
+  border:1px solid var(--line); border-radius:16px; box-shadow:0 16px 34px -20px rgba(0,0,0,0.6);
+}
+
+/* ---- topbar ---- */
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:14px;}
+.title-block{flex:1;min-width:260px;}
+.eyebrow-mini{font-family:var(--font-main);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,228,0.5);margin-bottom:6px;}
+.big-title{margin:0 0 6px;font-family:var(--font-main);font-weight:700;line-height:1.05;}
+.big-title span{display:block;font-size:clamp(25px,5.5vw,34px);text-transform:uppercase;letter-spacing:.01em;}
+.big-title .t1{color:var(--cream);}
+.big-title .t2{color:var(--gold-400);}
+.subtitle-line{font-size:13.5px;color:rgba(246,241,228,0.5);}
+.top-pills{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.date-pill{
+  font-family:var(--font-main);font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;
+  background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);white-space:nowrap;
+}
+.mini-pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;}
+.mini-pill{
+  font-family:var(--font-main);font-size:11.5px;padding:5px 10px;border-radius:999px;
+  background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);white-space:nowrap;
+}
+
+/* ---- info banner / weather ---- */
+.info-banner{
+  font-size:13px;color:rgba(246,241,228,0.55);background:rgba(205,164,84,0.06);
+  border:1px solid var(--line);border-radius:10px;padding:9px 14px;margin-bottom:12px;
+}
+.weather-strip{
+  display:inline-flex;align-items:center;gap:10px;background:var(--navy-800);border:1px solid var(--line);
+  border-radius:999px;padding:7px 14px 7px 10px;margin-bottom:16px;
+}
+.weather-strip .w-icon{font-size:19px;line-height:1;}
+.weather-strip .w-temp{font-family:var(--font-main);font-size:16px;font-weight:600;color:var(--cream);}
+.weather-strip .w-desc{font-size:13.5px;color:rgba(246,241,228,0.65);}
+.weather-strip .w-hilo{font-size:12.5px;color:var(--gold-300);}
+.weather-strip .w-place{font-size:11.5px;color:rgba(246,241,228,0.4);letter-spacing:.03em;}
+.weather-strip .w-sep{color:rgba(246,241,228,0.25);}
+.weather-strip.loading{color:rgba(246,241,228,0.4);font-size:13px;}
+
+/* ---- stats row ---- */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.stat-card{padding:14px 15px;}
+.stat-label{font-family:var(--font-main);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(246,241,228,0.45);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.stat-value{font-family:var(--font-main);font-size:17px;font-weight:600;color:var(--cream);line-height:1.3;}
+.stat-sub{font-size:12.5px;color:var(--gold-300);margin-top:4px;}
+
+/* ---- two column ---- */
+.two-col{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:start;}
+@media (max-width:800px){.two-col{grid-template-columns:1fr;}}
+.col-side{display:flex;flex-direction:column;gap:16px;}
+
+/* ---- schedule card ---- */
+.schedule-card{padding:18px;}
+.schedule-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap;}
+.schedule-title{font-family:var(--font-main);font-size:17px;font-weight:600;color:var(--cream);}
+.rot-pill{font-family:var(--font-main);font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);white-space:nowrap;}
+.day-tabs{display:flex;gap:8px;margin-bottom:14px;}
+.day-tab{font-family:var(--font-main);font-size:13px;padding:7px 16px;border-radius:999px;background:var(--navy-700);border:1px solid var(--line);color:rgba(246,241,228,0.6);cursor:pointer;}
+.day-tab.active{background:var(--cream);color:var(--navy-950);border-color:var(--cream);}
+
+.period-row{display:flex;align-items:center;gap:12px;background:var(--navy-800);border:1px solid rgba(255,255,255,0.05);border-radius:10px;padding:10px 12px;margin-bottom:8px;}
+.p-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.p-main{flex:1;min-width:0;}
+.p-name{font-family:var(--font-main);font-size:15px;font-weight:600;color:var(--cream);}
+.p-sub{font-size:12.5px;color:rgba(246,241,228,0.5);margin-top:1px;}
+.p-time{font-family:var(--font-main);font-size:12px;color:var(--gold-300);text-align:right;flex-shrink:0;white-space:nowrap;}
+.status-line{font-size:14.5px;padding:11px 14px;border-radius:10px;background:rgba(205,164,84,0.08);border:1px solid var(--line);color:rgba(246,241,228,0.8);}
+.status-line.off{background:rgba(205,164,84,0.14);}
+.mini-label{font-family:var(--font-main);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(246,241,228,0.4);margin:4px 2px 8px;}
+
+/* ---- side cards ---- */
+.side-card{padding:16px 16px 14px;}
+.side-head{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-main);font-size:13.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(246,241,228,0.7);}
+.route-badge{font-size:10.5px;font-family:var(--font-main);background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);padding:3px 8px;border-radius:999px;letter-spacing:.03em;}
+
+.bus-row2{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid rgba(255,255,255,0.05);}
+.bus-row2:first-of-type{border-top:none;padding-top:10px;}
+.bus-circle{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-main);font-size:11px;font-weight:700;flex-shrink:0;color:#fff;}
+.bus-main{flex:1;min-width:0;}
+.bus-label{font-family:var(--font-main);font-size:14px;font-weight:600;color:var(--cream);}
+.bus-sub{font-size:12px;color:rgba(246,241,228,0.5);}
+.bus-time{font-family:var(--font-main);font-size:13px;color:var(--gold-300);flex-shrink:0;white-space:nowrap;}
+
+.legend-sub{font-size:12px;color:rgba(246,241,228,0.4);margin:2px 0 10px;}
+.legend-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid rgba(255,255,255,0.05);}
+.legend-row:first-of-type{border-top:none;padding-top:0;}
+.legend-num{width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--font-main);font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.legend-main{flex:1;min-width:0;}
+.legend-name{font-family:var(--font-main);font-size:13.5px;font-weight:600;color:var(--cream);display:flex;align-items:center;gap:6px;}
+.legend-sub2{font-size:11.5px;color:rgba(246,241,228,0.45);}
+.legend-tag{font-size:10px;font-family:var(--font-main);font-weight:600;padding:3px 7px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
+.tag-today{background:#8b7ab8;color:#fff;}
+.tag-alt{background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);}
+.legend-foot{font-size:11.5px;color:rgba(246,241,228,0.4);margin-top:10px;line-height:1.5;}
+
+.up-row2{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid rgba(255,255,255,0.05);}
+.up-row2:first-of-type{border-top:none;padding-top:6px;}
+.up-num{width:22px;height:22px;border-radius:50%;background:var(--navy-700);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;}
+.up-main2{flex:1;min-width:0;}
+.up-date2{font-family:var(--font-main);font-size:11.5px;color:rgba(246,241,228,0.45);}
+.up-name2{font-family:var(--font-main);font-size:13.5px;font-weight:600;color:var(--cream);}
+.up-days{font-size:11.5px;color:rgba(246,241,228,0.4);}
+.pill-tag{font-size:10px;font-family:var(--font-main);font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
+.tag-noschool{background:var(--rose-dim);color:#e58ba0;border:1px solid rgba(193,84,106,0.35);}
+.tag-inservice{background:var(--steel-dim);color:#bcd2e6;border:1px solid rgba(76,112,150,0.4);}
+.tag-quarter{background:rgba(205,164,84,0.15);color:var(--gold-300);border:1px solid var(--line);}
+
+.mini-note{font-size:11.5px;color:rgba(246,241,228,0.4);line-height:1.5;padding:11px 13px;background:rgba(205,164,84,0.05);border:1px solid var(--line);border-radius:10px;}
+
+/* ---- calendar (unchanged from prior build) ---- */
+.section-label{font-family:var(--font-main);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,228,0.5);margin:26px 4px 10px;}
+.cal-card{padding:18px;margin-top:4px;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px;flex-wrap:wrap;}
+.cal-month{font-family:var(--font-main);font-size:18px;font-weight:600;color:var(--cream);letter-spacing:.02em;min-width:150px;text-align:center;}
+.nav-btns{display:flex;gap:6px;align-items:center;}
+.nav-btn{background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);font-family:var(--font-main);font-size:15px;border-radius:8px;padding:7px 12px;cursor:pointer;}
+.nav-btn:hover{background:var(--navy-600);}
+.nav-btn.today-btn{font-size:12px;padding:7px 10px;letter-spacing:.05em;text-transform:uppercase;}
+.cal-weekdays{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:6px;}
+.cal-weekdays span{text-align:center;font-family:var(--font-main);font-size:11.5px;letter-spacing:.1em;color:rgba(246,241,228,0.4);text-transform:uppercase;}
+.cal-grid{display:flex;flex-direction:column;gap:6px;}
+.cal-week{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+.cal-cell{position:relative;border-radius:9px;min-height:56px;padding:5px 6px;cursor:pointer;background:var(--navy-800);border:1px solid rgba(255,255,255,0.05);display:flex;flex-direction:column;justify-content:space-between;transition:transform .1s ease;}
+.cal-cell:hover{transform:translateY(-1px);}
+.cal-cell.empty{visibility:hidden;cursor:default;}
+.cal-cell.muted{opacity:.35;cursor:default;}
+.cal-cell.muted:hover{transform:none;}
+.cal-cell .dnum{font-family:var(--font-main);font-size:14px;font-weight:600;color:var(--cream);}
+.cal-cell .dtag{font-size:9.5px;line-height:1.15;color:rgba(246,241,228,0.7);}
+.cal-cell.closed{background:linear-gradient(160deg, var(--gold-400), var(--gold-500));}
+.cal-cell.closed .dnum,.cal-cell.closed .dtag{color:var(--navy-950);}
+.cal-cell.noschool{background:var(--gold-dim-2);}
+.cal-cell.noschool .dtag{color:var(--gold-100);}
+.cal-cell.inservice{background:var(--steel-dim);border-color:rgba(76,112,150,0.4);}
+.cal-cell.inservice .dtag{color:#bcd2e6;}
+.cal-cell.halfday::after{content:"";position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 16px 16px 0;border-color:transparent var(--gold-400) transparent transparent;border-top-right-radius:9px;}
+.cal-cell.today{box-shadow:0 0 0 2px var(--gold-400) inset;}
+.cal-cell.selected{box-shadow:0 0 0 2px #fff inset;}
+.cal-cell .rot{font-family:var(--font-main);font-size:10px;color:var(--gold-300);}
+.cal-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(246,241,228,0.6);}
+.leg-swatch{width:12px;height:12px;border-radius:4px;flex-shrink:0;}
+.detail-card{padding:18px;margin-top:14px;}
+.detail-date{font-family:var(--font-main);font-size:17px;font-weight:600;color:var(--cream);margin-bottom:10px;}
+
+.foot{margin-top:22px;padding:16px 18px;border-radius:12px;background:rgba(205,164,84,0.06);border:1px solid var(--line);font-size:13px;line-height:1.6;color:rgba(246,241,228,0.6);}
+.foot p{margin:0 0 8px;}
+.foot p:last-child{margin-bottom:0;}
+.foot b{color:var(--gold-300);}
+
+@media (max-width:480px){
+  .stats-row{grid-template-columns:1fr;}
+  .top-pills{align-items:flex-start;}
+  .up-date2{display:block;}
+  .cal-cell{min-height:48px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="title-block">
+      <div class="eyebrow-mini">Spring-Ford Area School District 2026–2027</div>
+      <h1 class="big-title"><span class="t1">Carter's 5th Grade</span><span class="t2">Dashboard</span></h1>
+      <div class="subtitle-line">School day, rotation, lunch, busing &amp; full-year calendar</div>
+    </div>
+    <div class="top-pills" id="topPills"></div>
+  </div>
+
+  <div class="info-banner">6-day rotation pauses on weekends &amp; holidays — specials only advance on school days. Art on Day 1 means Music on Day 2, etc.</div>
+
+  <div><div class="weather-strip loading" id="weatherStrip">Loading weather…</div></div>
+
+  <div class="stats-row" id="statsRow"></div>
+
+  <div class="two-col">
+    <div class="col-main">
+      <div class="card schedule-card">
+        <div class="schedule-head">
+          <div class="schedule-title">Today's Schedule</div>
+          <div class="rot-pill" id="rotPill"></div>
+        </div>
+        <div class="day-tabs" id="dayTabs"></div>
+        <div id="scheduleBody"></div>
+      </div>
+    </div>
+
+    <div class="col-side">
+      <div class="card side-card">
+        <div class="side-head"><span>Bus Info · 818</span><span class="route-badge" id="routeBadge"></span></div>
+        <div id="busBody"></div>
+      </div>
+
+      <div class="card side-card">
+        <div class="side-head"><span>Specials Rotation Legend</span></div>
+        <div class="legend-sub">6-day cycle, only advances on school days</div>
+        <div id="legendBody"></div>
+        <div class="legend-foot">Days 3 &amp; 6 alternate Library (Rm LIB) and Ram Quest with Shayne Tobin (Rm W269) — the district calendar doesn't say which week is which, so check with the teacher.</div>
+      </div>
+
+      <div class="card side-card">
+        <div class="side-head"><span>What's Coming Up</span></div>
+        <div id="upcomingBody2"></div>
+      </div>
+
+      <div class="mini-note">District calendar states 180 official student days; working day-by-day through the listed closures comes to 179 here — a small, common gap (often a reserved contingency day). Full notes below.</div>
+    </div>
+  </div>
+
+  <p class="section-label">Full-Year Calendar</p>
+  <div class="card cal-card">
+    <div class="cal-nav">
+      <div class="nav-btns"><button class="nav-btn" id="prevBtn">‹</button></div>
+      <div class="cal-month" id="calMonthLabel"></div>
+      <div class="nav-btns">
+        <button class="nav-btn today-btn" id="todayBtn">Today</button>
+        <button class="nav-btn" id="nextBtn">›</button>
+      </div>
+    </div>
+    <div class="cal-weekdays"><span>M</span><span>T</span><span>W</span><span>Th</span><span>F</span></div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-legend">
+      <div class="leg-item"><span class="leg-swatch" style="background:linear-gradient(160deg,var(--gold-400),var(--gold-500))"></span>Closed</div>
+      <div class="leg-item"><span class="leg-swatch" style="background:var(--gold-dim-2)"></span>No school (students)</div>
+      <div class="leg-item"><span class="leg-swatch" style="background:var(--steel-dim);border:1px solid rgba(76,112,150,0.5)"></span>Staff in-service</div>
+      <div class="leg-item"><span class="leg-swatch" style="background:var(--navy-800);position:relative;overflow:hidden;"><span style="position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 12px 12px 0;border-color:transparent var(--gold-400) transparent transparent;"></span></span>Half day</div>
+      <div class="leg-item"><span class="leg-swatch" style="background:var(--navy-800);box-shadow:0 0 0 2px var(--gold-400) inset"></span>Today</div>
+    </div>
+  </div>
+
+  <div class="card detail-card">
+    <div class="detail-date" id="detailDate"></div>
+    <div id="detailBody"></div>
+  </div>
+
+  <div class="foot">
+    <p><b>School counting note:</b> the district's calendar states 180 official student days for 2026–2027. Working day-by-day through every closure, holiday, break, and in-service day listed on the printed calendar, this dashboard counts 179 — a small, common gap in published calendars (often a reserved contingency/make-up day). Let me know if the district confirms an extra instructional day and I'll adjust it.</p>
+    <p><b>Rotation-day assumption:</b> Carter's class schedule runs on a 6-day cycle (Day 1–6) rather than the calendar week. This dashboard assumes the cycle only advances on days students actually attend — so it pauses over weekends and breaks and simply picks back up — starting Day 1 on Aug 24, 2026 (the first day of school).</p>
+    <p><b>Days 3 &amp; 6 specials:</b> Library (Rm LIB) and Ram Quest with Shayne Tobin (Rm W269) alternate on these days; the printed schedule doesn't say which falls on a given week.</p>
+    <p><b>5th-grade events:</b> the district calendar only lists district-wide dates — no open house, assemblies, or field trip dates were on it, so none are shown here. Tell me any dates from the school and I'll add them in.</p>
+    <p><b>Busing:</b> from Carter's Skyward busing page — Bus 818, pickup 8:04 AM / drop-off 4:26 PM at Crown Pointe Dr &amp; N Lewis Rd. The page didn't restrict this to specific days, so it's shown on every school day; let me know if that changes.</p>
+    <p><b>Bell times:</b> Skyward lists ELA as an 8:50 AM–12:20 PM block and Target Time/Pro Social as 12:21–3:40 PM, but doesn't give individual start/end times for Homeroom, Math, Science, Specials, or Social Studies — so only the two block times are shown; the rest are listed in order without a clock time rather than an invented one.</p>
+  </div>
+
+</div>
+
+<script>
+/* ============ DATA ============ */
+const SCHOOL_YEAR_START = new Date(2026,7,24);
+const SCHOOL_YEAR_END   = new Date(2027,5,3);
+function D(y,m,d){ return new Date(y,m,d); }
+
+const NON_SCHOOL_DAYS = [
+  [D(2026,8,7),  'closed',    'Labor Day'],
+  [D(2026,8,21), 'closed',    'Yom Kippur'],
+  [D(2026,9,19), 'inservice', 'Staff In-Service Day'],
+  [D(2026,10,3), 'inservice', 'Election Day — Staff In-Service'],
+  [D(2026,10,23),'noschool',  'Conferences — No School for Students'],
+  [D(2026,10,24),'noschool',  'Conferences — No School for Students'],
+  [D(2026,10,25),'closed',    'Fall Break'],
+  [D(2026,10,26),'closed',    'Fall Break — Thanksgiving'],
+  [D(2026,10,27),'closed',    'Fall Break'],
+  [D(2026,11,24),'closed',    'Winter Break'],
+  [D(2026,11,25),'closed',    'Winter Break — Christmas'],
+  [D(2026,11,28),'closed',    'Winter Break'],
+  [D(2026,11,29),'closed',    'Winter Break'],
+  [D(2026,11,30),'closed',    'Winter Break'],
+  [D(2026,11,31),'closed',    'Winter Break'],
+  [D(2027,0,1),  'closed',    "Winter Break — New Year's Day"],
+  [D(2027,0,18), 'closed',    'Martin Luther King Jr. Day'],
+  [D(2027,1,15), 'noschool',  "Presidents' Day"],
+  [D(2027,2,10), 'inservice', 'Eid al Fitr — Act 80 Staff In-Service'],
+  [D(2027,2,25), 'closed',    'Spring Break'],
+  [D(2027,2,26), 'closed',    'Spring Break'],
+  [D(2027,2,29), 'closed',    'Spring Break'],
+  [D(2027,4,17), 'noschool',  'Eid al Adha'],
+  [D(2027,4,18), 'inservice', 'Election Day — Staff In-Service'],
+  [D(2027,4,31), 'closed',    'Memorial Day'],
+];
+const HALF_DAYS = [
+  [D(2027,0,27), 'Half Day — PM Staff In-Service'],
+  [D(2027,1,12), 'Half Day — PM Staff In-Service'],
+  [D(2027,2,24), 'Half Day — PM Staff In-Service'],
+  [D(2027,3,21), 'Half Day — PM Staff In-Service'],
+  [D(2027,5,3),  'Half Day — Last Day of School!'],
+];
+const QUARTER_ENDS = [
+  [D(2026,9,28), 'End of Quarter 1'],
+  [D(2027,0,19), 'End of Quarter 2'],
+  [D(2027,2,24), 'End of Quarter 3'],
+  [D(2027,5,3),  'End of Quarter 4 — Last Day'],
+];
+const MILESTONES = [ [D(2026,7,24), 'First Day of School!'] ];
+
+const BUS_INFO = { number:'818', route:'SFIS/UPE 818 SP', stop:'Crown Pointe Dr & N Lewis Rd', amTime:'8:04 AM', pmTime:'4:26 PM' };
+
+const SUBJECT_STYLE = {
+  home:   {icon:'🏠', color:'#8b7ab8'},
+  ela:    {icon:'📖', color:'#c1694a'},
+  target: {icon:'🎯', color:'#cda454'},
+  math:   {icon:'📐', color:'#3f8f8a'},
+  sci:    {icon:'🔬', color:'#5c8a4a'},
+  art:    {icon:'🎨', color:'#a86bc9'},
+  music:  {icon:'🎵', color:'#4c7096'},
+  pe:     {icon:'🏃', color:'#4a9d6f'},
+  health: {icon:'🩺', color:'#d17a8f'},
+  library:{icon:'📚', color:'#6b8cae'},
+  ss:     {icon:'🌍', color:'#9a4747'},
+};
+
+function per(num, subject, teacher, room, time, kind){ return {num, subject, teacher, room, time, kind}; }
+const HOMEROOM = per('0','Homeroom','Brian Kraeer','Rm W252', null, 'home');
+const ELA = per('1','ELA','Jamie Cross','Rm W249','8:50–12:20 PM','ela');
+const MATH = per('3','Math','Christa Puco','Rm W250', null, 'math');
+const SCI = per('4','Science','Christa Puco','Rm W250', null, 'sci');
+const SS = per('6','Social Studies','Brian Kraeer','Rm W252', null, 'ss');
+const SCHEDULE = {
+  1: [HOMEROOM, ELA, per('2','Target Time','Brian Kraeer','Rm W252','12:21–3:40 PM','target'), MATH, SCI, per('5','Art','Katherine Beerer','Rm W169', null, 'art'), SS],
+  2: [HOMEROOM, ELA, per('2','Target Time','Brian Kraeer','Rm W252','12:21–3:40 PM','target'), MATH, SCI, per('5','Music','Bevin Seislove','Rm W148', null, 'music'), SS],
+  3: [HOMEROOM, ELA, per('2','Pro Social / Class Meeting','Brian Kraeer','Rm W252','12:21–3:40 PM','target'), MATH, SCI, per('5','Library / Ram Quest','Shayne Tobin (Ram Quest)','Rm LIB · W269', null, 'library'), SS],
+  4: [HOMEROOM, ELA, per('2','Target Time','Brian Kraeer','Rm W252','12:21–3:40 PM','target'), MATH, SCI, per('5','Health','Jeffrey Moyer','Rm E178', null, 'health'), SS],
+  5: [HOMEROOM, ELA, per('2','Target Time','Brian Kraeer','Rm W252','12:21–3:40 PM','target'), MATH, SCI, per('5','Physical Education','Sheila Cemini','Gym 4', null, 'pe'), SS],
+  6: [HOMEROOM, ELA, per('2','Pro Social / Class Meeting','Brian Kraeer','Rm W252','12:21–3:40 PM','target'), MATH, SCI, per('5','Library / Ram Quest','Shayne Tobin (Ram Quest)','Rm LIB · W269', null, 'library'), SS],
+};
+
+/* ============ HELPERS ============ */
+const pad = n => String(n).padStart(2,'0');
+const dateKey = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const addDays = (d,n) => new Date(d.getFullYear(), d.getMonth(), d.getDate()+n);
+const isWeekend = d => { const w=d.getDay(); return w===0||w===6; };
+const inSchoolYear = d => d.getTime()>=SCHOOL_YEAR_START.getTime() && d.getTime()<=SCHOOL_YEAR_END.getTime();
+const fmtLong = d => d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+const fmtShort = d => d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+const fmtTab = d => d.toLocaleDateString('en-US',{weekday:'short'}) + ' ' + (d.getMonth()+1) + '/' + d.getDate();
+
+const nonSchoolMap = {}; NON_SCHOOL_DAYS.forEach(([d,type,label])=>{ nonSchoolMap[dateKey(d)]={type,label}; });
+const halfDayMap = {}; HALF_DAYS.forEach(([d,label])=>{ halfDayMap[dateKey(d)]=label; });
+const quarterEndMap = {}; QUARTER_ENDS.forEach(([d,label])=>{ quarterEndMap[dateKey(d)]=label; });
+const milestoneMap = {}; MILESTONES.forEach(([d,label])=>{ milestoneMap[dateKey(d)]=label; });
+
+function isSchoolDay(d){
+  if(!inSchoolYear(d)) return false;
+  if(isWeekend(d)) return false;
+  if(nonSchoolMap[dateKey(d)]) return false;
+  return true;
+}
+const schoolDayNumberMap = {};
+let TOTAL_SCHOOL_DAYS = 0;
+(function build(){
+  let d = new Date(SCHOOL_YEAR_START);
+  while(d.getTime() <= SCHOOL_YEAR_END.getTime()){
+    if(isSchoolDay(d)){ TOTAL_SCHOOL_DAYS++; schoolDayNumberMap[dateKey(d)] = TOTAL_SCHOOL_DAYS; }
+    d = addDays(d,1);
+  }
+})();
+const rotationDayFor = num => ((num-1)%6)+1;
+
+function mostRecentSchoolDayNum(d){
+  let cur = new Date(d);
+  while(cur.getTime() >= SCHOOL_YEAR_START.getTime()){
+    const n = schoolDayNumberMap[dateKey(cur)];
+    if(n) return n;
+    cur = addDays(cur,-1);
+  }
+  return 0;
+}
+function nextSchoolDay(fromDate){
+  let d = addDays(fromDate,1);
+  while(d.getTime() <= SCHOOL_YEAR_END.getTime()){
+    if(isSchoolDay(d)) return d;
+    d = addDays(d,1);
+  }
+  return null;
+}
+function nextNamedDayOff(fromDate){
+  let d = addDays(fromDate,1); let guard = 0;
+  while(guard < 500){
+    const entry = nonSchoolMap[dateKey(d)];
+    if(entry && d.getTime() > fromDate.getTime()) return {date:new Date(d), ...entry};
+    d = addDays(d,1); guard++;
+    if(d.getTime() > SCHOOL_YEAR_END.getTime() + 1000*60*60*24*10) break;
+  }
+  return null;
+}
+function describeDate(date){
+  const key = dateKey(date);
+  const out = { date, key };
+  if(date.getTime() < SCHOOL_YEAR_START.getTime()){ out.status='before'; return out; }
+  if(date.getTime() > SCHOOL_YEAR_END.getTime()){ out.status='after'; return out; }
+  if(isWeekend(date)){ out.status='weekend'; return out; }
+  if(nonSchoolMap[key]){ out.status='off'; out.off = nonSchoolMap[key]; return out; }
+  out.status='school';
+  out.num = schoolDayNumberMap[key];
+  out.rot = rotationDayFor(out.num);
+  out.classes = SCHEDULE[out.rot];
+  out.halfDay = halfDayMap[key] || null;
+  out.quarterEnd = quarterEndMap[key] || null;
+  out.milestone = milestoneMap[key] || null;
+  return out;
+}
+
+/* ============ SHARED ROW RENDERERS ============ */
+function periodRowsHTML(classes){
+  return classes.map(p => {
+    const s = SUBJECT_STYLE[p.kind];
+    return `<div class="period-row">
+      <div class="p-icon" style="background:${s.color}33;color:${s.color}">${s.icon}</div>
+      <div class="p-main">
+        <div class="p-name">${p.subject}</div>
+        <div class="p-sub">${p.teacher} · ${p.room}</div>
+      </div>
+      <div class="p-time">${p.time || ''}</div>
+    </div>`;
+  }).join('');
+}
+function busMiniRowsHTML(){
+  return `<div class="period-row">
+      <div class="p-icon" style="background:#4a9d6f33;color:#4a9d6f">🚌</div>
+      <div class="p-main"><div class="p-name">AM Pickup — Bus ${BUS_INFO.number}</div><div class="p-sub">${BUS_INFO.stop}</div></div>
+      <div class="p-time">${BUS_INFO.amTime}</div>
+    </div>
+    <div class="period-row">
+      <div class="p-icon" style="background:#cd8f4a33;color:#cd8f4a">🚌</div>
+      <div class="p-main"><div class="p-name">PM Drop-off — Bus ${BUS_INFO.number}</div><div class="p-sub">${BUS_INFO.stop}</div></div>
+      <div class="p-time">${BUS_INFO.pmTime}</div>
+    </div>`;
+}
+function bodyForInfo(info){
+  if(info.status==='before') return `<div class="status-line">School hasn't started yet — first day is <b>${fmtLong(SCHOOL_YEAR_START)}</b>.</div>`;
+  if(info.status==='after') return `<div class="status-line">Summer! School's out — last day was <b>${fmtLong(SCHOOL_YEAR_END)}</b>.</div>`;
+  if(info.status==='weekend') return `<div class="status-line">Weekend — no school.</div>`;
+  if(info.status==='off') return `<div class="status-line off">No school — <b>${info.off.label}</b>.</div>`;
+  let extra = '';
+  if(info.milestone) extra += `<div class="status-line" style="margin-bottom:10px;">🎒 ${info.milestone}</div>`;
+  if(info.halfDay) extra += `<div class="status-line" style="margin-bottom:10px;">${info.halfDay}</div>`;
+  if(info.quarterEnd) extra += `<div class="status-line" style="margin-bottom:10px;">${info.quarterEnd}</div>`;
+  return `${extra}<div class="mini-label">Busing</div>${busMiniRowsHTML()}<div class="mini-label" style="margin-top:14px;">Classes</div>${periodRowsHTML(info.classes)}`;
+}
+
+/* ============ TOP PILLS ============ */
+function renderTopPills(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const info = describeDate(today);
+  let dateText = `📅 ${fmtLong(today)}`;
+  if(info.milestone) dateText += ` — ${info.milestone}`;
+  else if(info.status==='off') dateText += ` — ${info.off.label}`;
+  let minis = '';
+  if(info.status==='school') minis = `<span class="mini-pill">Day ${info.num} of ${TOTAL_SCHOOL_DAYS}</span><span class="mini-pill">Rotation Day ${info.rot} of 6</span>`;
+  else if(info.status==='off') minis = `<span class="mini-pill">No School Today</span>`;
+  else if(info.status==='weekend') minis = `<span class="mini-pill">Weekend</span>`;
+  else if(info.status==='before') minis = `<span class="mini-pill">Starts ${fmtShort(SCHOOL_YEAR_START)}</span>`;
+  else minis = `<span class="mini-pill">Summer Break</span>`;
+  document.getElementById('topPills').innerHTML = `<div class="date-pill">${dateText}</div><div class="mini-pills">${minis}</div>`;
+  return {today, info};
+}
+
+/* ============ STATS ============ */
+function renderStats(today){
+  const el = document.getElementById('statsRow');
+  const nsd = nextSchoolDay(today);
+  const ndo = nextNamedDayOff(today);
+  const recentNum = mostRecentSchoolDayNum(today);
+  const remaining = Math.max(TOTAL_SCHOOL_DAYS - recentNum, 0);
+  const afterYear = today.getTime() > SCHOOL_YEAR_END.getTime();
+
+  let nsdSub = '';
+  let nsdHTML;
+  if(nsd){
+    const nsdNum = schoolDayNumberMap[dateKey(nsd)];
+    const nsdRot = rotationDayFor(nsdNum);
+    const special = SCHEDULE[nsdRot][5];
+    const s = SUBJECT_STYLE[special.kind];
+    nsdHTML = `${fmtShort(nsd)} — Day ${nsdNum} / Rotation ${nsdRot}<div class="stat-sub">${s.icon} ${special.subject} with ${special.teacher}</div>`;
+  } else { nsdHTML = `School year complete`; }
+
+  const ndoHTML = ndo
+    ? `${fmtShort(ndo.date)} — ${ndo.label}<div class="stat-sub">in ${Math.round((ndo.date-today)/86400000)} day${Math.round((ndo.date-today)/86400000)===1?'':'s'} · No school</div>`
+    : `None scheduled`;
+
+  const remHTML = afterYear
+    ? `🎉 Done!<div class="stat-sub">See you in fall</div>`
+    : `${remaining} left / ${TOTAL_SCHOOL_DAYS} total<div class="stat-sub">school days</div>`;
+
+  el.innerHTML = `
+    <div class="card stat-card"><div class="stat-label">📋 Next School Day</div><div class="stat-value">${nsdHTML}</div></div>
+    <div class="card stat-card"><div class="stat-label">🕐 Next Day Off</div><div class="stat-value">${ndoHTML}</div></div>
+    <div class="card stat-card"><div class="stat-label">🎓 School Days Left</div><div class="stat-value">${remHTML}</div></div>
+  `;
+}
+
+/* ============ SCHEDULE CARD (day tabs) ============ */
+let scheduleTabs = [];
+let scheduleTabIndex = 0;
+function initScheduleTabs(today){
+  const nsd = nextSchoolDay(today);
+  scheduleTabs = [today];
+  if(nsd) scheduleTabs.push(nsd);
+}
+function renderScheduleCard(){
+  const el = document.getElementById('dayTabs');
+  el.innerHTML = scheduleTabs.map((d,i) => `<button class="day-tab${i===scheduleTabIndex?' active':''}" data-i="${i}">${fmtTab(d)}</button>`).join('');
+  el.querySelectorAll('.day-tab').forEach(btn => {
+    btn.addEventListener('click', () => { scheduleTabIndex = Number(btn.dataset.i); renderScheduleCard(); });
+  });
+  const info = describeDate(scheduleTabs[scheduleTabIndex]);
+  document.getElementById('rotPill').textContent = info.status==='school' ? `DAY ${info.num} · ROT ${info.rot}` : '';
+  document.getElementById('rotPill').style.display = info.status==='school' ? '' : 'none';
+  document.getElementById('scheduleBody').innerHTML = info.status==='school'
+    ? periodRowsHTML(info.classes)
+    : bodyForInfoStatusOnly(info);
+}
+function bodyForInfoStatusOnly(info){
+  if(info.status==='off') return `<div class="status-line off">No school — <b>${info.off.label}</b>.</div>`;
+  if(info.status==='weekend') return `<div class="status-line">Weekend — no school.</div>`;
+  if(info.status==='before') return `<div class="status-line">School hasn't started yet — first day is <b>${fmtLong(SCHOOL_YEAR_START)}</b>.</div>`;
+  return `<div class="status-line">Summer! School's out — last day was <b>${fmtLong(SCHOOL_YEAR_END)}</b>.</div>`;
+}
+
+/* ============ BUS CARD ============ */
+function renderBusCard(){
+  document.getElementById('routeBadge').textContent = BUS_INFO.route;
+  document.getElementById('busBody').innerHTML = `
+    <div class="bus-row2">
+      <div class="bus-circle" style="background:#4a9d6f">AM</div>
+      <div class="bus-main"><div class="bus-label">Pickup</div><div class="bus-sub">${BUS_INFO.stop}</div></div>
+      <div class="bus-time">${BUS_INFO.amTime}</div>
+    </div>
+    <div class="bus-row2">
+      <div class="bus-circle" style="background:#cd8f4a">PM</div>
+      <div class="bus-main"><div class="bus-label">Drop-off</div><div class="bus-sub">${BUS_INFO.stop}</div></div>
+      <div class="bus-time">${BUS_INFO.pmTime}</div>
+    </div>`;
+}
+
+/* ============ LEGEND CARD ============ */
+function renderLegendCard(today){
+  const info = describeDate(today);
+  const nsd = nextSchoolDay(today);
+  let currentRot = null;
+  if(info.status==='school') currentRot = info.rot;
+  else if(nsd) currentRot = rotationDayFor(schoolDayNumberMap[dateKey(nsd)]);
+
+  const rows = [1,2,3,4,5,6].map(day => {
+    const p = SCHEDULE[day][5];
+    const s = SUBJECT_STYLE[p.kind];
+    let tag = '';
+    if(day === currentRot) tag = `<span class="legend-tag tag-today">TODAY</span>`;
+    else if(day===3 || day===6) tag = `<span class="legend-tag tag-alt">ALTERNATES</span>`;
+    return `<div class="legend-row">
+      <div class="legend-num" style="background:${s.color}">${day}</div>
+      <div class="legend-main">
+        <div class="legend-name">${s.icon} ${p.subject}</div>
+        <div class="legend-sub2">${p.teacher.split(' (')[0]} · ${p.room}</div>
+      </div>
+      ${tag}
+    </div>`;
+  }).join('');
+  document.getElementById('legendBody').innerHTML = rows;
+}
+
+/* ============ UPCOMING V2 ============ */
+function renderUpcoming2(today){
+  const el = document.getElementById('upcomingBody2');
+  const byDate = {};
+  const add = (d, type, label) => {
+    const k = dateKey(d);
+    if(!byDate[k]) byDate[k] = {date:d, items:[]};
+    byDate[k].items.push({type,label});
+  };
+  NON_SCHOOL_DAYS.forEach(([d,type,label]) => add(d,type,label));
+  HALF_DAYS.forEach(([d,label]) => add(d,'halfday',label));
+  QUARTER_ENDS.forEach(([d,label]) => add(d,'quarter',label));
+
+  const list = Object.values(byDate).filter(e => e.date.getTime() > today.getTime()).sort((a,b) => a.date - b.date).slice(0,5);
+
+  if(list.length===0){
+    el.innerHTML = `<div class="up-row2"><span class="up-name2" style="color:rgba(246,241,228,0.5);font-weight:400;">Nothing else scheduled before the end of the calendar.</span></div>`;
+    return;
+  }
+  const tagFor = t => t==='closed' ? `<span class="pill-tag tag-noschool">No School</span>`
+    : t==='noschool' ? `<span class="pill-tag tag-noschool">No School</span>`
+    : t==='inservice' ? `<span class="pill-tag tag-inservice">Staff In-Service</span>`
+    : t==='quarter' ? `<span class="pill-tag tag-quarter">Quarter Ends</span>`
+    : t==='halfday' ? `<span class="pill-tag tag-quarter">Half Day</span>` : '';
+
+  el.innerHTML = list.map((e,i) => {
+    const primary = e.items[0];
+    const label = e.items.map(it=>it.label).join(' · ');
+    return `<div class="up-row2">
+      <div class="up-num">${i+1}</div>
+      <div class="up-main2">
+        <div class="up-date2">${fmtShort(e.date)}</div>
+        <div class="up-name2">${label}</div>
+        <div class="up-days">in ${Math.round((e.date-today)/86400000)} days</div>
+      </div>
+      ${tagFor(primary.type)}
+    </div>`;
+  }).join('');
+}
+
+/* ============ WEATHER (Royersford, PA · 19468) ============ */
+const WEATHER_LAT = 40.1843, WEATHER_LON = -75.5380;
+const WEATHER_CODES = {
+  0:{icon:'☀️',label:'Clear'}, 1:{icon:'🌤️',label:'Mostly Clear'}, 2:{icon:'⛅',label:'Partly Cloudy'}, 3:{icon:'☁️',label:'Cloudy'},
+  45:{icon:'🌫️',label:'Fog'}, 48:{icon:'🌫️',label:'Fog'},
+  51:{icon:'🌦️',label:'Light Drizzle'}, 53:{icon:'🌦️',label:'Drizzle'}, 55:{icon:'🌦️',label:'Drizzle'},
+  56:{icon:'🌧️',label:'Freezing Drizzle'}, 57:{icon:'🌧️',label:'Freezing Drizzle'},
+  61:{icon:'🌧️',label:'Light Rain'}, 63:{icon:'🌧️',label:'Rain'}, 65:{icon:'🌧️',label:'Heavy Rain'},
+  66:{icon:'🌧️',label:'Freezing Rain'}, 67:{icon:'🌧️',label:'Freezing Rain'},
+  71:{icon:'❄️',label:'Light Snow'}, 73:{icon:'❄️',label:'Snow'}, 75:{icon:'❄️',label:'Heavy Snow'}, 77:{icon:'❄️',label:'Snow Grains'},
+  80:{icon:'🌦️',label:'Rain Showers'}, 81:{icon:'🌦️',label:'Rain Showers'}, 82:{icon:'🌧️',label:'Heavy Showers'},
+  85:{icon:'🌨️',label:'Snow Showers'}, 86:{icon:'🌨️',label:'Snow Showers'},
+  95:{icon:'⛈️',label:'Thunderstorm'}, 96:{icon:'⛈️',label:'Thunderstorm'}, 99:{icon:'⛈️',label:'Thunderstorm'},
+};
+async function loadWeather(){
+  const el = document.getElementById('weatherStrip');
+  try{
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=America%2FNew_York&forecast_days=1`;
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('bad response');
+    const data = await res.json();
+    const code = data.current.weather_code;
+    const info = WEATHER_CODES[code] || {icon:'🌡️', label:'—'};
+    const temp = Math.round(data.current.temperature_2m);
+    const hi = Math.round(data.daily.temperature_2m_max[0]);
+    const lo = Math.round(data.daily.temperature_2m_min[0]);
+    el.classList.remove('loading');
+    el.innerHTML = `<span class="w-icon">${info.icon}</span><span class="w-temp">${temp}°F</span><span class="w-desc">${info.label}</span><span class="w-sep">·</span><span class="w-hilo">H:${hi}° L:${lo}°</span><span class="w-sep">·</span><span class="w-place">Royersford, PA</span>`;
+  }catch(e){
+    el.classList.remove('loading');
+    el.innerHTML = `<span class="w-desc" style="opacity:.5">Weather unavailable</span>`;
+  }
+}
+
+/* ============ CALENDAR (unchanged behavior) ============ */
+const MONTHS = [
+  {y:2026,m:7},{y:2026,m:8},{y:2026,m:9},{y:2026,m:10},{y:2026,m:11},
+  {y:2027,m:0},{y:2027,m:1},{y:2027,m:2},{y:2027,m:3},{y:2027,m:4},{y:2027,m:5}
+];
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+let currentMonthIndex = 0;
+let selectedDate = null;
+(function initMonthIndex(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  let idx = MONTHS.findIndex(mm => mm.y===today.getFullYear() && mm.m===today.getMonth());
+  if(idx===-1) idx = today.getTime() < SCHOOL_YEAR_START.getTime() ? 0 : MONTHS.length-1;
+  currentMonthIndex = idx;
+})();
+function buildMonthGrid(year, month){
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const weeks = []; let week = [null,null,null,null,null]; let any = false;
+  for(let day=1; day<=daysInMonth; day++){
+    const d = new Date(year,month,day); const wd = d.getDay();
+    if(wd===0 || wd===6) continue;
+    const col = wd-1; week[col] = d; any = true;
+    if(col===4){ weeks.push(week); week=[null,null,null,null,null]; any=false; }
+  }
+  if(any) weeks.push(week);
+  return weeks;
+}
+function cellClassAndTag(d){
+  const info = describeDate(d);
+  if(info.status==='before' || info.status==='after') return {cls:'muted', tag:''};
+  if(info.status==='weekend') return {cls:'muted', tag:''};
+  if(info.status==='off') {
+    const typeCls = info.off.type==='inservice' ? 'inservice' : info.off.type==='noschool' ? 'noschool' : 'closed';
+    const tagText = info.off.type==='inservice' ? 'Staff Day' : info.off.type==='noschool' ? 'No School' : 'Closed';
+    return {cls:typeCls, tag:tagText};
+  }
+  let cls = ''; if(info.halfDay) cls += ' halfday';
+  return {cls:cls.trim(), tag:`D${info.rot}`, num:info.num};
+}
+function renderCalendar(){
+  const {y,m} = MONTHS[currentMonthIndex];
+  document.getElementById('calMonthLabel').textContent = `${MONTH_NAMES[m]} ${y}`;
+  const weeks = buildMonthGrid(y,m);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const todayKey = dateKey(today);
+  const selKey = selectedDate ? dateKey(selectedDate) : null;
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = weeks.map(week => `
+    <div class="cal-week">
+      ${week.map(d => {
+        if(!d) return `<div class="cal-cell empty"></div>`;
+        const {cls, tag} = cellClassAndTag(d);
+        const key = dateKey(d);
+        let extra = '';
+        if(key===todayKey) extra += ' today';
+        if(key===selKey) extra += ' selected';
+        return `<div class="cal-cell ${cls}${extra}" data-date="${key}">
+          <span class="dnum">${d.getDate()}</span>
+          <span class="rot">${tag && !['Closed','No School','Staff Day'].includes(tag) ? tag : ''}</span>
+          <span class="dtag">${['Closed','No School','Staff Day'].includes(tag) ? tag : ''}</span>
+        </div>`;
+      }).join('')}
+    </div>
+  `).join('');
+  grid.querySelectorAll('.cal-cell[data-date]').forEach(cell => {
+    cell.addEventListener('click', () => {
+      const [yy,mm,dd] = cell.dataset.date.split('-').map(Number);
+      selectDate(new Date(yy, mm-1, dd));
+    });
+  });
+}
+function selectDate(d){
+  selectedDate = d;
+  renderCalendar();
+  renderDetail(d);
+}
+function renderDetail(d){
+  document.getElementById('detailDate').textContent = fmtLong(d);
+  document.getElementById('detailBody').innerHTML = bodyForInfo(describeDate(d));
+}
+document.getElementById('prevBtn').addEventListener('click', () => { currentMonthIndex = Math.max(0, currentMonthIndex-1); renderCalendar(); });
+document.getElementById('nextBtn').addEventListener('click', () => { currentMonthIndex = Math.min(MONTHS.length-1, currentMonthIndex+1); renderCalendar(); });
+document.getElementById('todayBtn').addEventListener('click', () => {
+  const today = new Date(); today.setHours(0,0,0,0);
+  let idx = MONTHS.findIndex(mm => mm.y===today.getFullYear() && mm.m===today.getMonth());
+  if(idx===-1) idx = today.getTime() < SCHOOL_YEAR_START.getTime() ? 0 : MONTHS.length-1;
+  currentMonthIndex = idx;
+  selectDate(today);
+});
+
+/* ============ INIT ============ */
+const {today} = renderTopPills();
+renderStats(today);
+initScheduleTabs(today);
+renderScheduleCard();
+renderBusCard();
+renderLegendCard(today);
+renderUpcoming2(today);
+loadWeather();
+renderCalendar();
+selectDate(today);
+</script>
+</body>
+</html>
