@@ -106,6 +106,8 @@ body{
 .schedule-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px;flex-wrap:wrap;}
 .schedule-title{font-family:var(--font-main);font-size:24px;font-weight:700;color:var(--cream);letter-spacing:.01em;}
 .rot-pill{font-family:var(--font-main);font-size:13.5px;font-weight:600;padding:5px 12px;border-radius:999px;background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);white-space:nowrap;}
+.print-btn{font-family:var(--font-main);font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);cursor:pointer;white-space:nowrap;}
+.print-btn:hover{background:var(--navy-600);}
 .day-tabs{display:flex;gap:8px;margin-bottom:16px;}
 .day-tab{font-family:var(--font-main);font-size:14.5px;padding:7px 16px;border-radius:999px;background:var(--navy-700);border:1px solid var(--line);color:rgba(246,241,228,0.6);cursor:pointer;}
 .day-tab.active{background:var(--cream);color:var(--navy-950);border-color:var(--cream);}
@@ -212,6 +214,28 @@ body{
 .foot p:last-child{margin-bottom:0;}
 .foot b{color:var(--gold-300);}
 
+/* ---- print / PDF export (week view) ---- */
+.print-only{display:none;}
+.pw-header{margin-bottom:16px;}
+.pw-title{font-family:var(--font-main);font-size:20px;font-weight:800;color:#111;}
+.pw-sub{font-size:12px;color:#555;margin-top:2px;}
+.pw-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+.pw-day{border:1px solid #ccc;border-radius:8px;padding:10px;break-inside:avoid;}
+.pw-day.off{background:#f5f0e0;}
+.pw-daylabel{font-size:13px;font-weight:700;color:#111;border-bottom:1px solid #ddd;padding-bottom:6px;margin-bottom:6px;}
+.pw-daylabel .rot{font-size:11px;color:#a67c2e;font-weight:600;display:block;margin-top:2px;}
+.pw-period{font-size:11px;color:#222;margin-bottom:7px;line-height:1.35;}
+.pw-period b{display:block;font-size:12px;}
+.pw-period .t{color:#a67c2e;font-size:10px;}
+.pw-off-note{font-size:12px;color:#555;font-style:italic;}
+.pw-footer{margin-top:16px;font-size:11px;color:#444;border-top:1px solid #ddd;padding-top:10px;line-height:1.6;}
+@media print{
+  @page{ size: landscape; margin: 12mm; }
+  body > .wrap{ display:none !important; }
+  .print-only{ display:block !important; }
+  body{ background:#fff !important; color:#111 !important; padding:0 !important; }
+}
+
 @media (max-width:600px){
   body{padding:18px 10px 48px;}
   .stats-row{grid-template-columns:1fr;gap:8px;}
@@ -261,7 +285,10 @@ body{
       <div class="card schedule-card">
         <div class="schedule-head">
           <div class="schedule-title" id="scheduleTitle">Today's Schedule</div>
-          <div class="rot-pill" id="rotPill"></div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="rot-pill" id="rotPill"></div>
+            <button class="print-btn" id="printWeekBtn" title="Export this week as a PDF">🖨️ Export Week</button>
+          </div>
         </div>
         <div class="day-tabs" id="dayTabs"></div>
         <div id="scheduleBody"></div>
@@ -326,6 +353,8 @@ body{
   </div>
 
 </div>
+
+<div class="print-only" id="printView"></div>
 
 <script>
 /* ============ DATA ============ */
@@ -653,6 +682,51 @@ function bodyForInfoStatusOnly(info){
   if(info.status==='before') return `<div class="status-line">School hasn't started yet — first day is <b>${fmtLong(SCHOOL_YEAR_START)}</b>.</div>`;
   return `<div class="status-line">Summer! School's out — last day was <b>${fmtLong(SCHOOL_YEAR_END)}</b>.</div>`;
 }
+
+/* ============ WEEK PDF EXPORT ============ */
+function mondayOf(d){
+  const day = d.getDay();
+  const diff = day===0 ? -6 : 1-day;
+  return addDays(d, diff);
+}
+function exportWeekPDF(){
+  const mon = mondayOf(selectedDate);
+  const days = [0,1,2,3,4].map(i => addDays(mon,i));
+  const rangeLabel = `${fmtShort(days[0])} – ${days[4].toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}`;
+
+  const dayCols = days.map(d => {
+    const info = describeDate(d);
+    const label = d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    if(info.status==='school'){
+      const rows = info.classes.map(p => `<div class="pw-period"><b>${p.subject}</b><div>${p.teacher} · ${p.room}</div>${p.time ? `<div class="t">${p.time}</div>` : ''}</div>`).join('');
+      return `<div class="pw-day">
+        <div class="pw-daylabel">${label}<span class="rot">Day ${info.num} · Rotation ${info.rot}</span></div>
+        ${rows}
+      </div>`;
+    }
+    const reason = info.status==='weekend' ? 'Weekend'
+      : info.status==='off' ? info.off.label
+      : info.status==='before' ? 'Before school year'
+      : 'After school year';
+    return `<div class="pw-day off">
+      <div class="pw-daylabel">${label}</div>
+      <div class="pw-off-note">No school — ${reason}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('printView').innerHTML = `
+    <div class="pw-header">
+      <div class="pw-title">Carter's 5th Grade Schedule</div>
+      <div class="pw-sub">Week of ${rangeLabel} · Spring-Ford Area School District</div>
+    </div>
+    <div class="pw-grid">${dayCols}</div>
+    <div class="pw-footer">
+      Bus ${BUS_INFO.number} (${BUS_INFO.route}) — AM pickup ${BUS_INFO.amTime}, PM drop-off ${BUS_INFO.pmTime} at ${BUS_INFO.stop}, on school days.<br>
+      Homeroom teacher: ${TEACHER_INFO.name} — ${TEACHER_INFO.email} · ${TEACHER_INFO.phone} x${TEACHER_INFO.ext}
+    </div>`;
+  window.print();
+}
+document.getElementById('printWeekBtn').addEventListener('click', exportWeekPDF);
 
 /* ============ BUS CARD ============ */
 function renderBusCard(){
