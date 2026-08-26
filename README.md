@@ -168,11 +168,11 @@ would misrepresent the actual schedule.
 ### Busing
 
 ```
-Bus number:  818
-Route:       SFIS/UPE 818 SP
+Bus number:  937
+Route:       SFIS/UPE 937 SP
 Stop:        Crown Pointe Dr & N Lewis Rd
 AM Pickup:   8:04 AM
-PM Drop-off: 4:26 PM
+PM Drop-off: 4:05 PM
 ```
 No day-of-week restriction was listed on the Skyward busing page, so this is
 shown as applying every school day.
