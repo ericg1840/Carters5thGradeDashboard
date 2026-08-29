@@ -87,6 +87,17 @@ body{
 .stat-progress{height:5px;border-radius:999px;background:rgba(255,255,255,0.08);overflow:hidden;}
 .stat-progress-fill{height:100%;background:linear-gradient(90deg,var(--gold-400),var(--gold-500));border-radius:999px;}
 
+/* ---- milestone countdowns ---- */
+.milestones-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px;}
+.milestone-card{padding:14px 12px;text-align:center;}
+.milestone-icon{font-size:21px;margin-bottom:5px;}
+.milestone-days{font-family:var(--font-main);font-size:26px;font-weight:800;color:var(--gold-300);line-height:1;}
+.milestone-days.today{color:var(--cream);font-size:19px;}
+.milestone-label{font-family:var(--font-main);font-size:12.5px;font-weight:600;color:var(--cream);margin-top:5px;}
+.milestone-date{font-size:11.5px;color:rgba(246,241,228,0.45);margin-top:2px;}
+.milestone-card.is-today{box-shadow:0 0 0 2px var(--gold-400) inset;}
+@media (max-width:600px){.milestones-row{grid-template-columns:repeat(2,1fr);}}
+
 /* ---- two column ---- */
 .two-col{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:start;}
 @media (max-width:800px){.two-col{grid-template-columns:1fr;}}
@@ -280,6 +291,8 @@ body{
 
   <div class="stats-row" id="statsRow"></div>
 
+  <div class="milestones-row" id="milestonesRow"></div>
+
   <div class="two-col">
     <div class="col-main">
       <div class="card schedule-card">
@@ -403,6 +416,14 @@ const QUARTER_ENDS = [
   [D(2027,5,3),  'End of Quarter 4 — Last Day'],
 ];
 const MILESTONES = [ [D(2026,7,24), 'First Day of School!'] ];
+
+const MILESTONE_COUNTDOWNS = [
+  {label:'First Day of School', date:D(2026,7,24), icon:'🎒'},
+  {label:'Fall Break', date:D(2026,10,25), icon:'🍂'},
+  {label:'Winter Break', date:D(2026,11,24), icon:'❄️'},
+  {label:'Spring Break', date:D(2027,2,25), icon:'🌸'},
+  {label:'Last Day of School', date:D(2027,5,3), icon:'🎉'},
+];
 
 const BUS_INFO = { number:'937', route:'SFIS/UPE 937 SP', stop:'Crown Pointe Dr & N Lewis Rd', amTime:'8:04 AM', pmTime:'4:05 PM' };
 
@@ -608,6 +629,26 @@ function renderStats(today){
     </div>`;
 
   el.innerHTML = card1 + card2 + card3;
+}
+
+/* ============ MILESTONE COUNTDOWNS ============ */
+function renderMilestones(today){
+  const el = document.getElementById('milestonesRow');
+  const upcoming = MILESTONE_COUNTDOWNS.filter(m => m.date.getTime() >= today.getTime());
+  if(upcoming.length===0){
+    el.innerHTML = `<div class="card milestone-card"><div class="milestone-icon">🏖️</div><div class="milestone-label">Summer Break</div><div class="milestone-date">See you next year!</div></div>`;
+    return;
+  }
+  el.innerHTML = upcoming.map(m => {
+    const days = Math.round((m.date - today)/86400000);
+    const isToday = days === 0;
+    return `<div class="card milestone-card${isToday?' is-today':''}">
+      <div class="milestone-icon">${m.icon}</div>
+      <div class="milestone-days${isToday?' today':''}">${isToday ? 'Today!' : days}</div>
+      <div class="milestone-label">${m.label}</div>
+      <div class="milestone-date">${fmtShort(m.date)}</div>
+    </div>`;
+  }).join('');
 }
 
 /* ============ SCHEDULE CARD (quick-select tabs) ============ */
@@ -944,6 +985,7 @@ document.getElementById('todayBtn').addEventListener('click', () => {
 /* ============ INIT ============ */
 const {today} = renderTopPills();
 renderStats(today);
+renderMilestones(today);
 initQuickTabs(today);
 renderBusCard();
 renderTeacherCard();
