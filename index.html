@@ -191,6 +191,8 @@ body{
 
 /* ---- calendar (compact mini-calendar) ---- */
 .section-label{font-family:var(--font-main);font-size:13.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,228,0.5);margin:26px 4px 10px;}
+.section-label-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.section-label-row .section-label{margin:26px 0 10px;}
 .cal-card{padding:16px 18px;margin-top:4px;}
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap;}
 .cal-month{font-family:var(--font-main);font-size:17px;font-weight:600;color:var(--cream);letter-spacing:.02em;min-width:0;text-align:center;}
@@ -307,7 +309,10 @@ body{
         <div id="scheduleBody"></div>
       </div>
 
-      <p class="section-label">Full-Year Calendar</p>
+      <div class="section-label-row">
+        <p class="section-label">Full-Year Calendar</p>
+        <button class="print-btn" id="addToCalBtn" title="Download non-school days &amp; half days as a calendar file">📅 Add to Calendar</button>
+      </div>
       <div class="card cal-card">
         <div class="cal-nav">
           <div class="nav-btns"><button class="nav-btn" id="prevBtn">‹</button></div>
@@ -768,6 +773,46 @@ function exportWeekPDF(){
   window.print();
 }
 document.getElementById('printWeekBtn').addEventListener('click', exportWeekPDF);
+
+/* ============ ADD TO CALENDAR (.ics EXPORT) ============ */
+function icsDate(d){ return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`; }
+function icsEscape(s){ return String(s).replace(/([,;])/g,'\\$1'); }
+function buildICS(){
+  const events = [];
+  MILESTONES.forEach(([d,label]) => events.push({date:d, summary:label}));
+  NON_SCHOOL_DAYS.forEach(([d,type,label]) => events.push({date:d, summary:`No School — ${label}`}));
+  HALF_DAYS.forEach(([d,label]) => events.push({date:d, summary:label}));
+
+  const now = icsDate(new Date()) + 'T000000Z';
+  const lines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Carters 5th Grade Dashboard//EN','CALSCALE:GREGORIAN'];
+  events.forEach((e,i) => {
+    const start = icsDate(e.date);
+    const end = icsDate(addDays(e.date,1));
+    lines.push(
+      'BEGIN:VEVENT',
+      `UID:${start}-${i}@carters-5th-grade-dashboard`,
+      `DTSTAMP:${now}`,
+      `DTSTART;VALUE=DATE:${start}`,
+      `DTEND;VALUE=DATE:${end}`,
+      `SUMMARY:${icsEscape(e.summary)}`,
+      'END:VEVENT'
+    );
+  });
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n');
+}
+function downloadICS(){
+  const blob = new Blob([buildICS()], {type:'text/calendar;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'carters-5th-grade-school-year.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+document.getElementById('addToCalBtn').addEventListener('click', downloadICS);
 
 /* ============ BUS CARD ============ */
 function renderBusCard(){
