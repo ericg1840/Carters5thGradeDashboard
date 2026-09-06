@@ -87,6 +87,17 @@ body{
 .stat-progress{height:5px;border-radius:999px;background:rgba(255,255,255,0.08);overflow:hidden;}
 .stat-progress-fill{height:100%;background:linear-gradient(90deg,var(--gold-400),var(--gold-500));border-radius:999px;}
 
+/* ---- milestone countdowns ---- */
+.milestones-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px;}
+.milestone-card{padding:14px 12px;text-align:center;}
+.milestone-icon{font-size:21px;margin-bottom:5px;}
+.milestone-days{font-family:var(--font-main);font-size:26px;font-weight:800;color:var(--gold-300);line-height:1;}
+.milestone-days.today{color:var(--cream);font-size:19px;}
+.milestone-label{font-family:var(--font-main);font-size:12.5px;font-weight:600;color:var(--cream);margin-top:5px;}
+.milestone-date{font-size:11.5px;color:rgba(246,241,228,0.45);margin-top:2px;}
+.milestone-card.is-today{box-shadow:0 0 0 2px var(--gold-400) inset;}
+@media (max-width:600px){.milestones-row{grid-template-columns:repeat(2,1fr);}}
+
 /* ---- two column ---- */
 .two-col{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:start;}
 @media (max-width:800px){.two-col{grid-template-columns:1fr;}}
@@ -180,6 +191,8 @@ body{
 
 /* ---- calendar (compact mini-calendar) ---- */
 .section-label{font-family:var(--font-main);font-size:13.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,228,0.5);margin:26px 4px 10px;}
+.section-label-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.section-label-row .section-label{margin:26px 0 10px;}
 .cal-card{padding:16px 18px;margin-top:4px;}
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap;}
 .cal-month{font-family:var(--font-main);font-size:17px;font-weight:600;color:var(--cream);letter-spacing:.02em;min-width:0;text-align:center;}
@@ -332,6 +345,8 @@ body{
 
   <div class="stats-row" id="statsRow"></div>
 
+  <div class="milestones-row" id="milestonesRow"></div>
+
   <div class="two-col">
     <div class="col-main">
       <div class="card schedule-card">
@@ -346,7 +361,10 @@ body{
         <div id="scheduleBody"></div>
       </div>
 
-      <p class="section-label">Full-Year Calendar</p>
+      <div class="section-label-row">
+        <p class="section-label">Full-Year Calendar</p>
+        <button class="print-btn" id="addToCalBtn" title="Download non-school days &amp; half days as a calendar file">📅 Add to Calendar</button>
+      </div>
       <div class="card cal-card">
         <div class="cal-nav">
           <div class="nav-btns"><button class="nav-btn" id="prevBtn">‹</button></div>
@@ -467,6 +485,14 @@ const QUARTER_ENDS = [
   [D(2027,5,3),  'End of Quarter 4 — Last Day'],
 ];
 const MILESTONES = [ [D(2026,7,24), 'First Day of School!'] ];
+
+const MILESTONE_COUNTDOWNS = [
+  {label:'First Day of School', date:D(2026,7,24), icon:'🎒'},
+  {label:'Fall Break', date:D(2026,10,25), icon:'🍂'},
+  {label:'Winter Break', date:D(2026,11,24), icon:'❄️'},
+  {label:'Spring Break', date:D(2027,2,25), icon:'🌸'},
+  {label:'Last Day of School', date:D(2027,5,3), icon:'🎉'},
+];
 
 const BUS_INFO = { number:'937', route:'SFIS/UPE 937 SP', stop:'Crown Pointe Dr & N Lewis Rd', amTime:'8:04 AM', pmTime:'4:05 PM' };
 
@@ -674,6 +700,26 @@ function renderStats(today){
   el.innerHTML = card1 + card2 + card3;
 }
 
+/* ============ MILESTONE COUNTDOWNS ============ */
+function renderMilestones(today){
+  const el = document.getElementById('milestonesRow');
+  const upcoming = MILESTONE_COUNTDOWNS.filter(m => m.date.getTime() >= today.getTime());
+  if(upcoming.length===0){
+    el.innerHTML = `<div class="card milestone-card"><div class="milestone-icon">🏖️</div><div class="milestone-label">Summer Break</div><div class="milestone-date">See you next year!</div></div>`;
+    return;
+  }
+  el.innerHTML = upcoming.map(m => {
+    const days = Math.round((m.date - today)/86400000);
+    const isToday = days === 0;
+    return `<div class="card milestone-card${isToday?' is-today':''}">
+      <div class="milestone-icon">${m.icon}</div>
+      <div class="milestone-days${isToday?' today':''}">${isToday ? 'Today!' : days}</div>
+      <div class="milestone-label">${m.label}</div>
+      <div class="milestone-date">${fmtShort(m.date)}</div>
+    </div>`;
+  }).join('');
+}
+
 /* ============ SCHEDULE CARD (quick-select tabs) ============ */
 let quickTabs = [];
 function initQuickTabs(today){
@@ -791,6 +837,46 @@ function exportWeekPDF(){
   window.print();
 }
 document.getElementById('printWeekBtn').addEventListener('click', exportWeekPDF);
+
+/* ============ ADD TO CALENDAR (.ics EXPORT) ============ */
+function icsDate(d){ return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`; }
+function icsEscape(s){ return String(s).replace(/([,;])/g,'\\$1'); }
+function buildICS(){
+  const events = [];
+  MILESTONES.forEach(([d,label]) => events.push({date:d, summary:label}));
+  NON_SCHOOL_DAYS.forEach(([d,type,label]) => events.push({date:d, summary:`No School — ${label}`}));
+  HALF_DAYS.forEach(([d,label]) => events.push({date:d, summary:label}));
+
+  const now = icsDate(new Date()) + 'T000000Z';
+  const lines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Carters 5th Grade Dashboard//EN','CALSCALE:GREGORIAN'];
+  events.forEach((e,i) => {
+    const start = icsDate(e.date);
+    const end = icsDate(addDays(e.date,1));
+    lines.push(
+      'BEGIN:VEVENT',
+      `UID:${start}-${i}@carters-5th-grade-dashboard`,
+      `DTSTAMP:${now}`,
+      `DTSTART;VALUE=DATE:${start}`,
+      `DTEND;VALUE=DATE:${end}`,
+      `SUMMARY:${icsEscape(e.summary)}`,
+      'END:VEVENT'
+    );
+  });
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n');
+}
+function downloadICS(){
+  const blob = new Blob([buildICS()], {type:'text/calendar;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'carters-5th-grade-school-year.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+document.getElementById('addToCalBtn').addEventListener('click', downloadICS);
 
 /* ============ BUS CARD ============ */
 function renderBusCard(){
@@ -1200,6 +1286,7 @@ function initGrades(today){
 /* ============ INIT ============ */
 const {today} = renderTopPills();
 renderStats(today);
+renderMilestones(today);
 initQuickTabs(today);
 renderBusCard();
 renderTeacherCard();
@@ -1208,6 +1295,10 @@ renderUpcoming2(today);
 loadWeather();
 selectDate(today);
 initGrades(today);
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+}
 </script>
 </body>
 </html>
