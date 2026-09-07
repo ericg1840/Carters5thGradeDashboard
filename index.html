@@ -54,8 +54,6 @@ body{
   color:var(--cream);background:rgba(255,255,255,0.06);border:1px solid var(--line);border-radius:999px;
   padding:8px 14px;white-space:nowrap;
 }
-.briefing-chip.warn{background:var(--rose-dim);border-color:rgba(193,84,106,0.35);color:#e58ba0;}
-.briefing-chip.good{background:rgba(76,157,111,0.16);border-color:rgba(76,157,111,0.4);color:#7fcf9e;}
 
 /* ---- topbar ---- */
 .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:14px;}
@@ -437,16 +435,6 @@ const BUS_INFO = { number:'937', route:'SFIS/UPE 937 SP', stop:'Crown Pointe Dr 
 
 const TEACHER_INFO = { name:'Brian Kraeer', role:'Homeroom · Target Time · Social Studies', room:'Rm W252', email:'bkrae@spring-ford.net', phone:'610-705-6003', ext:'3503' };
 
-/* Assignments & quizzes/tests aren't available from any district feed — add them here by hand
-   as they come up (e.g. from Skyward/Google Classroom) and the Daily Briefing will pick them up.
-   status: 'open' (not done yet), 'done' (turned in), or 'missing' (overdue & not turned in). */
-const ASSIGNMENTS = [
-  // { subject:'Math', title:'Worksheet 4.2', due:D(2026,7,26), status:'open' },
-];
-const QUIZZES_TESTS = [
-  // { subject:'Science', title:'Chapter 2 Quiz', date:D(2026,7,28) },
-];
-
 const SUBJECT_STYLE = {
   home:   {icon:'🏠', color:'#8b7ab8'},
   ela:    {icon:'📖', color:'#c1694a'},
@@ -592,26 +580,6 @@ function renderBriefing(today){
     if(special.kind === 'pe') chips.push(`<span class="briefing-chip">🏃 Gym today</span>`);
     chips.push(`<span class="briefing-chip">🚌 Bus at ${BUS_INFO.amTime}</span>`);
   }
-
-  const todayKey = dateKey(today);
-  const dueToday = ASSIGNMENTS.filter(a => a.status !== 'done' && dateKey(a.due) === todayKey);
-  chips.push(dueToday.length
-    ? `<span class="briefing-chip">📚 ${dueToday.length} assignment${dueToday.length===1?'':'s'} due</span>`
-    : `<span class="briefing-chip">📚 No assignments due</span>`);
-
-  const upcomingQuiz = QUIZZES_TESTS
-    .filter(q => q.date.getTime() >= today.getTime())
-    .sort((a,b) => a.date - b.date)[0];
-  if(upcomingQuiz){
-    const days = Math.round((upcomingQuiz.date - today)/86400000);
-    const when = days===0 ? 'today' : days===1 ? 'tomorrow' : `in ${days} days`;
-    chips.push(`<span class="briefing-chip">🧪 ${upcomingQuiz.subject} ${upcomingQuiz.title ? upcomingQuiz.title.toLowerCase().includes('quiz') || upcomingQuiz.title.toLowerCase().includes('test') ? upcomingQuiz.title : 'quiz' : 'quiz'} ${when}</span>`);
-  }
-
-  const missing = ASSIGNMENTS.filter(a => a.status === 'missing');
-  chips.push(missing.length
-    ? `<span class="briefing-chip warn">⚠️ ${missing.length} missing assignment${missing.length===1?'':'s'}</span>`
-    : `<span class="briefing-chip good">✅ No missing work</span>`);
 
   document.getElementById('briefingChips').innerHTML = chips.join('');
 }
