@@ -36,6 +36,25 @@ body{
   box-shadow:0 16px 34px -20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
+/* ---- daily briefing ---- */
+.briefing-card{
+  padding:20px 24px; margin-bottom:16px; position:relative; overflow:hidden;
+  background:linear-gradient(160deg, var(--navy-700), var(--navy-900) 82%);
+  border-color:rgba(255,255,255,0.16);
+}
+.briefing-card::before{
+  content:""; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--gold-400),var(--gold-500));
+}
+.briefing-greeting{font-family:var(--font-main);font-weight:700;font-size:clamp(22px,4vw,28px);color:var(--cream);}
+.briefing-sub{font-size:15px;color:var(--gold-300);margin-top:2px;margin-bottom:14px;}
+.briefing-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.briefing-chip{
+  display:inline-flex;align-items:center;gap:7px;font-family:var(--font-main);font-size:14.5px;font-weight:600;
+  color:var(--cream);background:rgba(255,255,255,0.06);border:1px solid var(--line);border-radius:999px;
+  padding:8px 14px;white-space:nowrap;
+}
+
 /* ---- topbar ---- */
 .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:14px;}
 .title-block{flex:1;min-width:260px;}
@@ -301,6 +320,8 @@ body{
 
 @media (max-width:600px){
   body{padding:18px 10px 48px;}
+  .briefing-card{padding:16px 18px;}
+  .briefing-chip{font-size:13.5px;padding:7px 12px;}
   .stats-row{grid-template-columns:1fr;gap:8px;}
   .stat-card{padding:12px 14px;}
   .top-pills{align-items:flex-start;width:100%;}
@@ -334,6 +355,12 @@ body{
   </div>
 
   <div id="viewDashboard">
+
+  <div class="card briefing-card" id="briefingCard">
+    <div class="briefing-greeting" id="briefingGreeting"></div>
+    <div class="briefing-sub" id="briefingSub"></div>
+    <div class="briefing-chips" id="briefingChips"></div>
+  </div>
 
   <div class="topbar">
     <div class="title-block">
@@ -623,6 +650,38 @@ function renderTopPills(){
   else minis = `<span class="mini-pill">Summer Break</span>`;
   document.getElementById('topPills').innerHTML = `<div class="date-pill">${dateText}</div><div class="mini-pills">${minis}</div>`;
   return {today, info};
+}
+
+/* ============ DAILY BRIEFING ============ */
+let briefingWeatherText = null;
+function renderBriefing(today){
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('briefingGreeting').textContent = `${greeting}, Carter 👋`;
+
+  const info = describeDate(today);
+  const weekday = today.toLocaleDateString('en-US',{weekday:'long'});
+  let subParts = [weekday];
+  if(info.status==='school') subParts.push(`Rotation Day ${info.rot}`);
+  else if(info.status==='off') subParts.push(info.off.label);
+  else if(info.status==='weekend') subParts.push('Weekend');
+  document.getElementById('briefingSub').textContent = subParts.join(' • ');
+
+  const chips = [];
+  chips.push(`<span class="briefing-chip" id="briefingWeatherChip">${briefingWeatherText || '🌡️ Loading weather…'}</span>`);
+
+  if(info.status==='school'){
+    const special = info.classes[5];
+    if(special.kind === 'pe') chips.push(`<span class="briefing-chip">🏃 Gym today</span>`);
+    chips.push(`<span class="briefing-chip">🚌 Bus at ${BUS_INFO.amTime}</span>`);
+  }
+
+  document.getElementById('briefingChips').innerHTML = chips.join('');
+}
+function updateBriefingWeather(text){
+  briefingWeatherText = text;
+  const chip = document.getElementById('briefingWeatherChip');
+  if(chip) chip.textContent = text;
 }
 
 /* ============ STATS ============ */
@@ -1010,9 +1069,11 @@ async function loadWeather(){
     const lo = Math.round(data.daily.temperature_2m_min[0]);
     el.classList.remove('loading');
     el.innerHTML = `<span class="w-icon">${info.icon}</span><span class="w-temp">${temp}°F</span><span class="w-desc">${info.label}</span><span class="w-sep">·</span><span class="w-hilo">H:${hi}° L:${lo}°</span><span class="w-sep">·</span><span class="w-place">Royersford, PA</span>`;
+    updateBriefingWeather(`${info.icon} ${temp}°F`);
   }catch(e){
     el.classList.remove('loading');
     el.innerHTML = `<span class="w-desc" style="opacity:.5">Weather unavailable</span>`;
+    updateBriefingWeather('🌡️ Weather unavailable');
   }
 }
 
@@ -1298,6 +1359,7 @@ function initGrades(today){
 
 /* ============ INIT ============ */
 const {today} = renderTopPills();
+renderBriefing(today);
 renderStats(today);
 renderMilestones(today);
 initQuickTabs(today);
