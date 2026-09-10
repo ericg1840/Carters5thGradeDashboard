@@ -209,6 +209,45 @@ body{
 .leg-item{display:flex;align-items:center;gap:6px;font-size:12.5px;color:rgba(246,241,228,0.6);}
 .leg-swatch{width:11px;height:11px;border-radius:4px;flex-shrink:0;}
 
+/* ---- grades ---- */
+.grades-card{padding:18px 20px;margin-top:4px;}
+.grades-foot{font-size:13px;color:rgba(246,241,228,0.45);margin-bottom:12px;line-height:1.5;}
+.grades-foot b{color:var(--gold-300);}
+.gr-table{width:100%;border-collapse:collapse;}
+.gr-table th{font-family:var(--font-main);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(246,241,228,0.45);text-align:center;padding:8px 4px;border-bottom:1px solid var(--line);}
+.gr-table th:first-child{text-align:left;}
+.gr-table th.current-col{color:var(--gold-300);background:rgba(205,164,84,0.08);}
+.gr-row{cursor:default;}
+.gr-row.has-assignments{cursor:pointer;}
+.gr-row td{padding:11px 4px;border-bottom:1px solid rgba(255,255,255,0.05);vertical-align:middle;}
+.gr-row:hover td{background:rgba(255,255,255,0.03);}
+.gr-class{display:flex;align-items:center;gap:10px;}
+.gr-caret{width:14px;font-size:11px;color:rgba(246,241,228,0.35);transition:transform .12s ease;flex-shrink:0;}
+.gr-row.open .gr-caret{transform:rotate(90deg);}
+.gr-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.gr-name-col .gr-subject{font-family:var(--font-main);font-size:16.5px;font-weight:700;color:var(--cream);letter-spacing:.01em;}
+.gr-name-col .gr-meta{font-size:13px;color:rgba(246,241,228,0.45);margin-top:1px;}
+.gr-cell{text-align:center;font-family:var(--font-main);font-size:15px;color:rgba(246,241,228,0.3);}
+.gr-cell.filled{color:var(--cream);font-weight:600;}
+.gr-cell.posted{font-weight:800;color:var(--gold-300);}
+.gr-cell.current-col{background:rgba(205,164,84,0.08);}
+.gr-cell.highlight{background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);border-radius:8px;}
+.gr-assignments{display:none;}
+.gr-assignments.open{display:table-row;}
+.gr-assignments td{padding:0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.gr-assign-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 4px 9px 42px;font-size:14px;border-top:1px solid rgba(255,255,255,0.04);}
+.gr-assign-row:first-child{border-top:none;}
+.gr-assign-name{color:rgba(246,241,228,0.85);}
+.gr-assign-due{font-size:12.5px;color:rgba(246,241,228,0.4);margin-top:1px;}
+.gr-assign-grade{font-family:var(--font-main);font-weight:700;font-size:15px;color:var(--gold-300);flex-shrink:0;}
+.gr-assign-grade.empty{color:rgba(246,241,228,0.25);}
+@media (max-width:600px){
+  .gr-table{font-size:13px;}
+  .gr-name-col .gr-subject{font-size:14.5px;}
+  .gr-meta{display:none;}
+  .gr-icon{width:26px;height:26px;font-size:13px;}
+}
+
 .foot{margin-top:22px;padding:16px 18px;border-radius:12px;background:rgba(205,164,84,0.06);border:1px solid var(--line);font-size:14.5px;line-height:1.6;color:rgba(246,241,228,0.6);}
 .foot p{margin:0 0 8px;}
 .foot p:last-child{margin-bottom:0;}
@@ -343,6 +382,14 @@ body{
     </div>
   </div>
 
+  <p class="section-label">Class Grades</p>
+  <div class="card grades-card">
+    <div class="grades-foot">School: <b>Carter (Intermediate School)</b> · Grades posted to the report card are <b>bold</b>. Current grades are highlighted.</div>
+    <div style="overflow-x:auto;">
+      <table class="gr-table" id="gradesTable"></table>
+    </div>
+  </div>
+
   <div class="foot">
     <p><b>School counting note:</b> the district's calendar states 180 official student days for 2026–2027. Working day-by-day through every closure, holiday, break, and in-service day listed on the printed calendar, this dashboard counts 179 — a small, common gap in published calendars (often a reserved contingency/make-up day). Let me know if the district confirms an extra instructional day and I'll adjust it.</p>
     <p><b>Rotation-day assumption:</b> Carter's class schedule runs on a 6-day cycle (Day 1–6) rather than the calendar week. This dashboard assumes the cycle only advances on days students actually attend — so it pauses over weekends and breaks and simply picks back up — starting Day 1 on Aug 24, 2026 (the first day of school).</p>
@@ -436,6 +483,39 @@ const SCHEDULE = {
   5: [HOMEROOM, ELA, per('2','Target Time','Brian Kraeer','Rm W252','12:21–3:40 PM','target'), MATH, SCI, per('5','Physical Education','Sheila Cemini','Gym 4', null, 'pe'), SS],
   6: [HOMEROOM, ELA, per('2','Pro Social / Class Meeting','Brian Kraeer','Rm W252','12:21–3:40 PM','target'), MATH, SCI, per('5','Library / Ram Quest','Shayne Tobin (Ram Quest)','Rm LIB · W269', null, 'library'), SS],
 };
+
+const GRADES = [
+  {subject:'ELA', period:'Period 1 (8:50 AM - 12:20 PM)', teacher:'Jamie Cross', kind:'ela',
+    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], current:[], assignments:[]},
+  {subject:'MATH', period:'Period 3', teacher:'Christa Puco', kind:'math',
+    q:{ATH:null,Q1:100,Q2:null,Q3:null,Q4:null,FAV:100}, posted:['Q1','FAV'], current:['Q1'],
+    assignments:[
+      {name:'Homework Week of 9/8', due:'09/11/2026 (Q1)', grade:null},
+      {name:'Math About Me', due:'09/03/2026 (Q1)', grade:100},
+      {name:'Lesson 1 Quiz', due:'09/03/2026 (Q1)', grade:100},
+    ]},
+  {subject:'SCIENCE', period:'Period 4', teacher:'Christa Puco', kind:'sci',
+    q:{ATH:null,Q1:100,Q2:null,Q3:null,Q4:null,FAV:100}, posted:['Q1','FAV'], current:['Q1'],
+    assignments:[
+      {name:'Performance Task #1', due:'09/04/2026 (Q1)', grade:100},
+      {name:'Science About Me', due:'09/03/2026 (Q1)', grade:100},
+    ]},
+  {subject:'PHYSICAL EDUCATION', period:'Period 5', teacher:'Sheila Cemini', kind:'pe',
+    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], current:['Q2'], assignments:[]},
+  {subject:'HEALTH', period:'Period 5', teacher:'Jeffrey Moyer', kind:'health',
+    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], current:['Q2'], assignments:[]},
+  {subject:'ART', period:'Period 5', teacher:'Katherine Beerer', kind:'art',
+    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], current:['Q2'], assignments:[]},
+  {subject:'MUSIC', period:'Period 5', teacher:'Bevin Seislove', kind:'music',
+    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], current:['Q2'], assignments:[]},
+  {subject:'SOCIAL STUDIES', period:'Period 6', teacher:'Brian Kraeer', kind:'ss',
+    q:{ATH:null,Q1:100,Q2:null,Q3:null,Q4:null,FAV:100}, posted:['Q1','FAV'], current:['Q1'],
+    assignments:[
+      {name:'Ocean and Continent Quiz', due:'09/08/2026 (Q1)', grade:null},
+      {name:'Continent and Ocean Activity', due:'09/02/2026 (Q1)', grade:100},
+    ]},
+];
+const GRADE_COLS = ['ATH','Q1','Q2','Q3','Q4','FAV'];
 
 /* ============ HELPERS ============ */
 const pad = n => String(n).padStart(2,'0');
@@ -761,6 +841,57 @@ function renderTeacherCard(){
     </div>`;
 }
 
+/* ============ GRADES CARD ============ */
+function renderGradesCard(){
+  const head = `<tr><th>Class</th>${GRADE_COLS.map(c=>`<th class="${c==='Q1'||c==='Q2'?'current-col':''}">${c}</th>`).join('')}</tr>`;
+  const rows = GRADES.map((cls, i) => {
+    const meta = SUBJECT_STYLE[cls.kind] || {icon:'📘', color:'#888'};
+    const hasAssignments = cls.assignments.length > 0;
+    const rowId = `gr-${i}`;
+    const cells = GRADE_COLS.map(c => {
+      const val = cls.q[c];
+      const isPosted = cls.posted.includes(c);
+      const isCurrent = cls.current.includes(c);
+      const classes = ['gr-cell'];
+      if(val!=null) classes.push('filled');
+      if(isPosted) classes.push('posted');
+      if(c==='Q1'||c==='Q2') classes.push('current-col');
+      if(isCurrent) classes.push('highlight');
+      return `<td><span class="${classes.join(' ')}">${val!=null?val:'—'}</span></td>`;
+    }).join('');
+    const main = `
+      <tr class="gr-row${hasAssignments?' has-assignments':''}" ${hasAssignments?`onclick="toggleGradesRow('${rowId}')" id="${rowId}"`:''}>
+        <td>
+          <div class="gr-class">
+            ${hasAssignments?'<span class="gr-caret">▶</span>':'<span class="gr-caret"></span>'}
+            <div class="gr-icon" style="background:${meta.color}33;color:${meta.color}">${meta.icon}</div>
+            <div class="gr-name-col">
+              <div class="gr-subject">${cls.subject}</div>
+              <div class="gr-meta">${cls.period} · ${cls.teacher}</div>
+            </div>
+          </div>
+        </td>
+        ${cells}
+      </tr>`;
+    const assignRows = hasAssignments ? `
+      <tr class="gr-assignments" id="${rowId}-body">
+        <td colspan="${GRADE_COLS.length+1}">
+          ${cls.assignments.map(a => `
+            <div class="gr-assign-row">
+              <div><div class="gr-assign-name">${a.name}</div><div class="gr-assign-due">Due: ${a.due}</div></div>
+              <div class="gr-assign-grade${a.grade==null?' empty':''}">${a.grade!=null?a.grade:'—'}</div>
+            </div>`).join('')}
+        </td>
+      </tr>` : '';
+    return main + assignRows;
+  }).join('');
+  document.getElementById('gradesTable').innerHTML = head + rows;
+}
+window.toggleGradesRow = function(rowId){
+  document.getElementById(rowId).classList.toggle('open');
+  document.getElementById(rowId+'-body').classList.toggle('open');
+};
+
 /* ============ LEGEND CARD ============ */
 function renderLegendCard(today){
   const info = describeDate(today);
@@ -947,6 +1078,7 @@ renderStats(today);
 initQuickTabs(today);
 renderBusCard();
 renderTeacherCard();
+renderGradesCard();
 renderLegendCard(today);
 renderUpcoming2(today);
 loadWeather();
