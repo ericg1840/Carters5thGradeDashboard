@@ -526,6 +526,7 @@ const inSchoolYear = d => d.getTime()>=SCHOOL_YEAR_START.getTime() && d.getTime(
 const fmtLong = d => d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
 const fmtShort = d => d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
 const fmtTab = d => d.toLocaleDateString('en-US',{weekday:'short'}) + ' ' + (d.getMonth()+1) + '/' + d.getDate();
+const fmtDue = due => due.replace(/(\d{2})\/(\d{2})\/(\d{4})/, (_,mm,dd,yyyy) => `${+mm}-${+dd}-${yyyy}`);
 
 const nonSchoolMap = {}; NON_SCHOOL_DAYS.forEach(([d,type,label])=>{ nonSchoolMap[dateKey(d)]={type,label}; });
 const halfDayMap = {}; HALF_DAYS.forEach(([d,label])=>{ halfDayMap[dateKey(d)]=label; });
@@ -878,7 +879,7 @@ function renderGradesCard(){
         <td colspan="${GRADE_COLS.length+1}">
           ${cls.assignments.map(a => `
             <div class="gr-assign-row">
-              <div><div class="gr-assign-name">${a.name}</div><div class="gr-assign-due">Due: ${a.due}</div></div>
+              <div><div class="gr-assign-name">${a.name}</div><div class="gr-assign-due">Due: ${fmtDue(a.due)}</div></div>
               <div class="gr-assign-grade${a.grade==null?' empty':''}">${a.grade!=null?a.grade:'—'}</div>
             </div>`).join('')}
         </td>
