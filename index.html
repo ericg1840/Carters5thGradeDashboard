@@ -8,6 +8,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#081327">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Carter's 5th Grade">
@@ -39,12 +40,12 @@ body{
 /* ---- topbar ---- */
 .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:14px;}
 .title-block{flex:1;min-width:260px;}
-.eyebrow-mini{font-family:var(--font-main);font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,228,0.5);margin-bottom:6px;}
+.eyebrow-mini{font-family:var(--font-main);font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,228,0.62);margin-bottom:6px;}
 .big-title{margin:0 0 6px;font-family:var(--font-main);font-weight:700;line-height:1.05;}
 .big-title span{display:block;font-size:clamp(28px,6vw,38px);text-transform:uppercase;letter-spacing:.01em;}
 .big-title .t1{color:var(--cream);}
 .big-title .t2{color:var(--gold-400);}
-.subtitle-line{font-size:15.5px;color:rgba(246,241,228,0.5);}
+.subtitle-line{font-size:15.5px;color:rgba(246,241,228,0.62);}
 .top-pills{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
 .date-pill{
   font-family:var(--font-main);font-size:14.5px;font-weight:600;padding:8px 14px;border-radius:999px;
@@ -57,10 +58,6 @@ body{
 }
 
 /* ---- info banner / weather ---- */
-.info-banner{
-  font-size:14.5px;color:rgba(246,241,228,0.55);background:rgba(205,164,84,0.06);
-  border:1px solid var(--line);border-radius:10px;padding:9px 14px;margin-bottom:12px;
-}
 .weather-strip{
   display:inline-flex;align-items:center;gap:10px;background:var(--navy-800);border:1px solid var(--line);
   border-radius:999px;padding:7px 14px 7px 10px;margin-bottom:16px;
@@ -69,9 +66,9 @@ body{
 .weather-strip .w-temp{font-family:var(--font-main);font-size:18px;font-weight:600;color:var(--cream);}
 .weather-strip .w-desc{font-size:15.5px;color:rgba(246,241,228,0.65);}
 .weather-strip .w-hilo{font-size:14px;color:var(--gold-300);}
-.weather-strip .w-place{font-size:13px;color:rgba(246,241,228,0.4);letter-spacing:.03em;}
+.weather-strip .w-place{font-size:13px;color:rgba(246,241,228,0.62);letter-spacing:.03em;}
 .weather-strip .w-sep{color:rgba(246,241,228,0.25);}
-.weather-strip.loading{color:rgba(246,241,228,0.4);font-size:14.5px;}
+.weather-strip.loading{color:rgba(246,241,228,0.62);font-size:14.5px;}
 
 /* ---- stats row ---- */
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
@@ -79,7 +76,7 @@ body{
 .stat-top{display:flex;align-items:center;gap:11px;}
 .stat-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 4px 10px -4px rgba(0,0,0,0.5);}
 .stat-textcol{flex:1;min-width:0;}
-.stat-label{font-family:var(--font-main);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(246,241,228,0.45);margin-bottom:3px;}
+.stat-label{font-family:var(--font-main);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(246,241,228,0.62);margin-bottom:3px;}
 .stat-value{font-family:var(--font-main);font-size:15px;font-weight:700;color:var(--cream);line-height:1.3;}
 .stat-badge{font-family:var(--font-main);font-size:10.5px;font-weight:700;letter-spacing:.03em;padding:4px 10px;border-radius:999px;background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);white-space:nowrap;flex-shrink:0;}
 .stat-percent{font-family:var(--font-main);font-size:21px;font-weight:800;color:var(--cream);flex-shrink:0;}
@@ -108,14 +105,15 @@ body{
 .rot-pill{font-family:var(--font-main);font-size:13.5px;font-weight:600;padding:5px 12px;border-radius:999px;background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);white-space:nowrap;}
 .print-btn{font-family:var(--font-main);font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);cursor:pointer;white-space:nowrap;}
 .print-btn:hover{background:var(--navy-600);}
-.day-tabs{display:flex;gap:8px;margin-bottom:16px;}
+.day-tabs-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;}
+.day-tabs{display:flex;gap:8px;flex:1;min-width:0;flex-wrap:wrap;}
 .day-tab{font-family:var(--font-main);font-size:14.5px;padding:7px 16px;border-radius:999px;background:var(--navy-700);border:1px solid var(--line);color:rgba(246,241,228,0.6);cursor:pointer;}
 .day-tab.active{background:var(--cream);color:var(--navy-950);border-color:var(--cream);}
 
 /* ---- timeline (hero schedule) ---- */
 .timeline{display:flex;flex-direction:column;}
 .tl-row{display:grid;grid-template-columns:58px 18px 42px 1fr auto;column-gap:11px;position:relative;padding:11px 4px;}
-.tl-time{font-family:var(--font-main);font-size:11.5px;line-height:1.3;color:rgba(246,241,228,0.45);text-align:right;padding-top:10px;}
+.tl-time{font-family:var(--font-main);font-size:11.5px;line-height:1.3;color:rgba(246,241,228,0.62);text-align:right;padding-top:10px;}
 .tl-track{display:flex;flex-direction:column;align-items:center;}
 .tl-dot{width:11px;height:11px;border-radius:50%;background:var(--navy-900);border:2px solid rgba(205,164,84,0.55);margin-top:11px;flex-shrink:0;z-index:1;}
 .tl-connector{width:2px;flex:1;background:rgba(255,255,255,0.1);margin-top:2px;}
@@ -123,7 +121,7 @@ body{
 .tl-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
 .tl-main{min-width:0;padding-top:2px;}
 .tl-name{font-family:var(--font-main);font-size:19px;font-weight:700;color:var(--cream);}
-.tl-sub{font-size:14px;color:rgba(246,241,228,0.5);margin-top:2px;}
+.tl-sub{font-size:14px;color:rgba(246,241,228,0.62);margin-top:2px;}
 .tl-badge{align-self:center;font-family:var(--font-main);font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:5px 10px;border-radius:999px;background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);white-space:nowrap;text-transform:uppercase;}
 .tl-row.current{background:rgba(205,164,84,0.09);border-radius:12px;}
 .tl-row.current .tl-dot{background:var(--gold-400);border-color:var(--gold-400);box-shadow:0 0 0 5px rgba(205,164,84,0.22);}
@@ -133,11 +131,18 @@ body{
 .p-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
 .p-main{flex:1;min-width:0;}
 .p-name{font-family:var(--font-main);font-size:19px;font-weight:700;color:var(--cream);}
-.p-sub{font-size:15px;color:rgba(246,241,228,0.5);margin-top:1px;}
+.p-sub{font-size:15px;color:rgba(246,241,228,0.62);margin-top:1px;}
 .p-time{font-family:var(--font-main);font-size:13.5px;color:var(--gold-300);text-align:right;flex-shrink:0;white-space:nowrap;}
 .status-line{font-size:16.5px;padding:11px 14px;border-radius:10px;background:rgba(205,164,84,0.08);border:1px solid var(--line);color:rgba(246,241,228,0.8);}
 .status-line.off{background:rgba(205,164,84,0.14);}
-.mini-label{font-family:var(--font-main);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(246,241,228,0.4);margin:4px 2px 8px;}
+.status-line.warn{background:var(--rose-dim);border-color:rgba(193,84,106,0.45);color:#f3c6d0;}
+.tl-time.tbd{font-style:italic;color:rgba(246,241,228,0.4);}
+.bus-note{font-size:13.5px;margin-top:10px;padding:8px 10px;border-radius:8px;background:var(--rose-dim);border:1px solid rgba(193,84,106,0.45);color:#f3c6d0;}
+.bus-wx{display:block;font-size:12.5px;color:rgba(246,241,228,0.62);text-align:right;margin-top:2px;}
+.gr-missing{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:999px;background:var(--rose-dim);color:#e58ba0;border:1px solid rgba(193,84,106,0.35);margin-left:6px;vertical-align:1px;}
+.mini-label{font-family:var(--font-main);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(246,241,228,0.62);margin:4px 2px 8px;}
+
+:where(button,[tabindex]):focus-visible{outline:2px solid var(--gold-300);outline-offset:2px;}
 
 /* ---- side cards ---- */
 .side-card{padding:16px 16px 14px;}
@@ -149,49 +154,48 @@ body{
 .bus-circle{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-main);font-size:12.5px;font-weight:700;flex-shrink:0;color:#fff;}
 .bus-main{flex:1;min-width:0;}
 .bus-label{font-family:var(--font-main);font-size:18px;font-weight:700;color:var(--cream);}
-.bus-sub{font-size:15px;color:rgba(246,241,228,0.5);}
+.bus-sub{font-size:15px;color:rgba(246,241,228,0.62);}
 .bus-time{font-family:var(--font-main);font-size:14.5px;color:var(--gold-300);flex-shrink:0;white-space:nowrap;}
 
-.legend-sub{font-size:13.5px;color:rgba(246,241,228,0.4);margin:2px 0 10px;}
+.legend-sub{font-size:13.5px;color:rgba(246,241,228,0.62);margin:2px 0 10px;}
 .legend-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid rgba(255,255,255,0.05);}
 .legend-row:first-of-type{border-top:none;padding-top:0;}
 .legend-num{width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--font-main);font-size:13.5px;font-weight:700;color:#fff;flex-shrink:0;}
 .legend-main{flex:1;min-width:0;}
 .legend-name{font-family:var(--font-main);font-size:18px;font-weight:700;color:var(--cream);display:flex;align-items:center;gap:6px;}
-.legend-sub2{font-size:14.5px;color:rgba(246,241,228,0.45);}
+.legend-sub2{font-size:14.5px;color:rgba(246,241,228,0.62);}
 .legend-tag{font-size:11.5px;font-family:var(--font-main);font-weight:600;padding:3px 7px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
 .tag-today{background:#8b7ab8;color:#fff;}
 .tag-alt{background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);}
-.legend-foot{font-size:13px;color:rgba(246,241,228,0.4);margin-top:10px;line-height:1.5;}
+.legend-foot{font-size:13px;color:rgba(246,241,228,0.62);margin-top:10px;line-height:1.5;}
 
 .up-row2{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid rgba(255,255,255,0.05);}
 .up-row2:first-of-type{border-top:none;padding-top:6px;}
 .up-num{width:22px;height:22px;border-radius:50%;background:var(--navy-700);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12.5px;}
 .up-main2{flex:1;min-width:0;}
-.up-date2{font-family:var(--font-main);font-size:13px;color:rgba(246,241,228,0.45);}
+.up-date2{font-family:var(--font-main);font-size:13px;color:rgba(246,241,228,0.62);}
 .up-name2{font-family:var(--font-main);font-size:17px;font-weight:700;color:var(--cream);}
-.up-days{font-size:13px;color:rgba(246,241,228,0.4);}
+.up-days{font-size:13px;color:rgba(246,241,228,0.62);}
 .pill-tag{font-size:11.5px;font-family:var(--font-main);font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
 .tag-noschool{background:var(--rose-dim);color:#e58ba0;border:1px solid rgba(193,84,106,0.35);}
 .tag-inservice{background:var(--steel-dim);color:#bcd2e6;border:1px solid rgba(76,112,150,0.4);}
 .tag-quarter{background:rgba(205,164,84,0.15);color:var(--gold-300);border:1px solid var(--line);}
 
-.mini-note{font-size:13px;color:rgba(246,241,228,0.4);line-height:1.5;padding:11px 13px;background:rgba(205,164,84,0.05);border:1px solid var(--line);border-radius:10px;}
-
 /* ---- calendar (compact mini-calendar) ---- */
-.section-label{font-family:var(--font-main);font-size:13.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,228,0.5);margin:26px 4px 10px;}
+.section-label{font-family:var(--font-main);font-size:13.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,228,0.62);margin:26px 4px 10px;}
 .cal-card{padding:16px 18px;margin-top:4px;}
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap;}
 .cal-month{font-family:var(--font-main);font-size:17px;font-weight:600;color:var(--cream);letter-spacing:.02em;min-width:0;text-align:center;}
 .nav-btns{display:flex;gap:6px;align-items:center;}
 .nav-btn{background:var(--navy-700);border:1px solid var(--line);color:var(--gold-300);font-family:var(--font-main);font-size:15px;border-radius:8px;padding:6px 11px;cursor:pointer;}
 .nav-btn:hover{background:var(--navy-600);}
+.nav-btn:disabled{opacity:.35;cursor:default;}
 .nav-btn.today-btn{font-size:11.5px;padding:6px 9px;letter-spacing:.05em;text-transform:uppercase;}
 .cal-weekdays{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:4px;}
-.cal-weekdays span{text-align:center;font-family:var(--font-main);font-size:11px;letter-spacing:.08em;color:rgba(246,241,228,0.4);text-transform:uppercase;}
+.cal-weekdays span{text-align:center;font-family:var(--font-main);font-size:11px;letter-spacing:.08em;color:rgba(246,241,228,0.62);text-transform:uppercase;}
 .cal-grid{display:flex;flex-direction:column;gap:4px;}
 .cal-week{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;}
-.cal-cell{position:relative;border-radius:9px;height:38px;cursor:pointer;background:transparent;border:1px solid transparent;display:flex;align-items:center;justify-content:center;transition:background .1s ease;}
+.cal-cell{font:inherit;color:inherit;padding:0;width:100%;position:relative;border-radius:9px;height:38px;cursor:pointer;background:transparent;border:1px solid transparent;display:flex;align-items:center;justify-content:center;transition:background .1s ease;}
 .cal-cell:hover{background:rgba(255,255,255,0.05);}
 .cal-cell.empty{visibility:hidden;cursor:default;}
 .cal-cell.muted{opacity:.3;cursor:default;}
@@ -201,7 +205,8 @@ body{
 .cal-cell.closed .dnum{color:var(--navy-950);}
 .cal-cell.noschool{background:var(--gold-dim-2);}
 .cal-cell.inservice{background:var(--steel-dim);}
-.cal-cell.halfday::after{content:"";position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 9px 9px 0;border-color:transparent var(--gold-400) transparent transparent;border-top-right-radius:9px;}
+.cal-cell.halfday{overflow:hidden;}
+.cal-cell.halfday::after{content:"";position:absolute;top:0;right:0;width:16px;height:16px;background:var(--gold-400);clip-path:polygon(0 0,100% 0,100% 100%);}
 .cal-cell.today{box-shadow:0 0 0 2px var(--gold-400) inset;background:rgba(205,164,84,0.14);}
 .cal-cell.today .dnum{color:var(--gold-100);font-weight:800;}
 .cal-cell.selected{box-shadow:0 0 0 2px #fff inset;}
@@ -211,10 +216,10 @@ body{
 
 /* ---- grades ---- */
 .grades-card{padding:18px 20px;margin-top:4px;}
-.grades-foot{font-size:13px;color:rgba(246,241,228,0.45);margin-bottom:12px;line-height:1.5;}
+.grades-foot{font-size:13px;color:rgba(246,241,228,0.62);margin-bottom:12px;line-height:1.5;}
 .grades-foot b{color:var(--gold-300);}
 .gr-table{width:100%;border-collapse:collapse;}
-.gr-table th{font-family:var(--font-main);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(246,241,228,0.45);text-align:center;padding:8px 4px;border-bottom:1px solid var(--line);}
+.gr-table th{font-family:var(--font-main);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(246,241,228,0.62);text-align:center;padding:8px 4px;border-bottom:1px solid var(--line);}
 .gr-table th:first-child{text-align:left;}
 .gr-table th.current-col{color:var(--gold-300);background:rgba(205,164,84,0.08);}
 .gr-row{cursor:default;}
@@ -222,25 +227,26 @@ body{
 .gr-row td{padding:11px 4px;border-bottom:1px solid rgba(255,255,255,0.05);vertical-align:middle;}
 .gr-row:hover td{background:rgba(255,255,255,0.03);}
 .gr-class{display:flex;align-items:center;gap:10px;}
-.gr-caret{width:14px;font-size:11px;color:rgba(246,241,228,0.35);transition:transform .12s ease;flex-shrink:0;}
+.gr-caret{width:14px;font-size:11px;color:rgba(246,241,228,0.55);transition:transform .12s ease;flex-shrink:0;}
 .gr-row.open .gr-caret{transform:rotate(90deg);}
 .gr-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
 .gr-name-col .gr-subject{font-family:var(--font-main);font-size:16.5px;font-weight:700;color:var(--cream);letter-spacing:.01em;}
-.gr-name-col .gr-meta{font-size:13px;color:rgba(246,241,228,0.45);margin-top:1px;}
-.gr-cell{text-align:center;font-family:var(--font-main);font-size:15px;color:rgba(246,241,228,0.3);}
+.gr-name-col .gr-meta{font-size:13px;color:rgba(246,241,228,0.62);margin-top:1px;}
+.gr-cell{text-align:center;font-family:var(--font-main);font-size:15px;color:rgba(246,241,228,0.45);}
 .gr-cell.filled{color:var(--cream);font-weight:600;}
 .gr-cell.posted{font-weight:800;color:var(--gold-300);}
-.gr-cell.current-col{background:rgba(205,164,84,0.08);}
-.gr-cell.highlight{background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);border-radius:8px;}
+.gr-table td.current-col{background:rgba(205,164,84,0.08);}
+.gr-cell.highlight{display:inline-block;min-width:38px;padding:4px 8px;background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);border-radius:8px;}
+.gr-cell.highlight.empty-hl{background:transparent;color:var(--gold-300);box-shadow:0 0 0 1px var(--line) inset;}
 .gr-assignments{display:none;}
 .gr-assignments.open{display:table-row;}
 .gr-assignments td{padding:0;border-bottom:1px solid rgba(255,255,255,0.05);}
 .gr-assign-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 4px 9px 42px;font-size:14px;border-top:1px solid rgba(255,255,255,0.04);}
 .gr-assign-row:first-child{border-top:none;}
 .gr-assign-name{color:rgba(246,241,228,0.85);}
-.gr-assign-due{font-size:12.5px;color:rgba(246,241,228,0.4);margin-top:1px;}
+.gr-assign-due{font-size:12.5px;color:rgba(246,241,228,0.62);margin-top:1px;}
 .gr-assign-grade{font-family:var(--font-main);font-weight:700;font-size:15px;color:var(--gold-300);flex-shrink:0;}
-.gr-assign-grade.empty{color:rgba(246,241,228,0.25);}
+.gr-assign-grade.empty{color:rgba(246,241,228,0.5);}
 @media (max-width:600px){
   .gr-table{font-size:13px;}
   .gr-name-col .gr-subject{font-size:14.5px;}
@@ -248,6 +254,8 @@ body{
   .gr-icon{width:26px;height:26px;font-size:13px;}
 }
 
+.foot summary{cursor:pointer;font-weight:600;color:var(--gold-300);list-style-position:inside;}
+.foot[open] summary{margin-bottom:10px;}
 .foot{margin-top:22px;padding:16px 18px;border-radius:12px;background:rgba(205,164,84,0.06);border:1px solid var(--line);font-size:14.5px;line-height:1.6;color:rgba(246,241,228,0.6);}
 .foot p{margin:0 0 8px;}
 .foot p:last-child{margin-bottom:0;}
@@ -308,12 +316,10 @@ body{
     <div class="title-block">
       <div class="eyebrow-mini">Spring-Ford Area School District 2026–2027</div>
       <h1 class="big-title"><span class="t1">Carter's 5th Grade</span><span class="t2">Dashboard</span></h1>
-      <div class="subtitle-line">School day, rotation, lunch, busing &amp; full-year calendar</div>
+      <div class="subtitle-line">School day, rotation, busing, grades &amp; full-year calendar</div>
     </div>
     <div class="top-pills" id="topPills"></div>
   </div>
-
-  <div class="info-banner">6-day rotation pauses on weekends &amp; holidays — specials only advance on school days. Art on Day 1 means Music on Day 2, etc.</div>
 
   <div><div class="weather-strip loading" id="weatherStrip">Loading weather…</div></div>
 
@@ -329,22 +335,26 @@ body{
             <button class="print-btn" id="printWeekBtn" title="Export this week as a PDF">🖨️ Export Week</button>
           </div>
         </div>
-        <div class="day-tabs" id="dayTabs"></div>
+        <div class="day-tabs-row">
+          <button class="nav-btn" id="schedPrevBtn" aria-label="Previous school day">‹</button>
+          <div class="day-tabs" id="dayTabs"></div>
+          <button class="nav-btn" id="schedNextBtn" aria-label="Next school day">›</button>
+        </div>
         <div id="scheduleBody"></div>
       </div>
 
       <p class="section-label">Full-Year Calendar</p>
       <div class="card cal-card">
         <div class="cal-nav">
-          <div class="nav-btns"><button class="nav-btn" id="prevBtn">‹</button></div>
+          <div class="nav-btns"><button class="nav-btn" id="prevBtn" aria-label="Previous month">‹</button></div>
           <div class="cal-month" id="calMonthLabel"></div>
           <div class="nav-btns">
             <button class="nav-btn today-btn" id="todayBtn">Today</button>
-            <button class="nav-btn" id="nextBtn">›</button>
+            <button class="nav-btn" id="nextBtn" aria-label="Next month">›</button>
           </div>
         </div>
         <div class="cal-weekdays"><span>M</span><span>T</span><span>W</span><span>Th</span><span>F</span></div>
-        <div class="cal-grid" id="calGrid"></div>
+        <div class="cal-grid" id="calGrid" role="grid" aria-labelledby="calMonthLabel"></div>
         <div class="cal-legend">
           <div class="leg-item"><span class="leg-swatch" style="background:linear-gradient(160deg,var(--gold-400),var(--gold-500))"></span>Closed</div>
           <div class="leg-item"><span class="leg-swatch" style="background:var(--gold-dim-2)"></span>No school (students)</div>
@@ -358,6 +368,7 @@ body{
     <div class="col-side">
       <div class="card side-card">
         <div class="side-head"><span>Bus Info · 937</span><span class="route-badge" id="routeBadge"></span></div>
+        <div id="busNote"></div>
         <div id="busBody"></div>
       </div>
 
@@ -370,34 +381,34 @@ body{
         <div class="side-head"><span>Specials Rotation Legend</span></div>
         <div class="legend-sub">6-day cycle, only advances on school days</div>
         <div id="legendBody"></div>
-        <div class="legend-foot">Days 3 &amp; 6 alternate Library (Rm LIB) and Ram Quest with Shayne Tobin (Rm W269) — the district calendar doesn't say which week is which, so check with the teacher.</div>
+        <div class="legend-foot">Days 3 &amp; 6 alternate Library (Rm LIB) and Ram Quest with Shayne Tobin (Rm W269) — the schedule doesn't say which is which, so check with the teacher.</div>
       </div>
 
       <div class="card side-card">
         <div class="side-head"><span>What's Coming Up</span></div>
         <div id="upcomingBody2"></div>
       </div>
-
-      <div class="mini-note">District calendar states 180 official student days; working day-by-day through the listed closures comes to 179 here — a small, common gap (often a reserved contingency day). Full notes below.</div>
     </div>
   </div>
 
   <p class="section-label">Class Grades</p>
   <div class="card grades-card">
-    <div class="grades-foot">School: <b>Carter (Intermediate School)</b> · Grades posted to the report card are <b>bold</b>. Current grades are highlighted.</div>
+    <div class="grades-foot" id="gradesFoot"></div>
     <div style="overflow-x:auto;">
       <table class="gr-table" id="gradesTable"></table>
     </div>
   </div>
 
-  <div class="foot">
-    <p><b>School counting note:</b> the district's calendar states 180 official student days for 2026–2027. Working day-by-day through every closure, holiday, break, and in-service day listed on the printed calendar, this dashboard counts 179 — a small, common gap in published calendars (often a reserved contingency/make-up day). Let me know if the district confirms an extra instructional day and I'll adjust it.</p>
-    <p><b>Rotation-day assumption:</b> Carter's class schedule runs on a 6-day cycle (Day 1–6) rather than the calendar week. This dashboard assumes the cycle only advances on days students actually attend — so it pauses over weekends and breaks and simply picks back up — starting Day 1 on Aug 24, 2026 (the first day of school).</p>
+  <details class="foot">
+    <summary>ℹ️ About this data</summary>
+    <p><b>School days:</b> the district calendar states 180 student days for 2026–2027. Counting through every closure, holiday, break, and in-service day listed on the printed calendar gives 179 — a small, common gap in published calendars (often a reserved contingency/make-up day).</p>
+    <p><b>Rotation days:</b> Carter's schedule runs on a 6-day cycle (Day 1–6) rather than the calendar week. The cycle only advances on days students attend — it pauses over weekends and breaks and picks back up — starting with Day 1 on Aug 24, 2026.</p>
     <p><b>Days 3 &amp; 6 specials:</b> Library (Rm LIB) and Ram Quest with Shayne Tobin (Rm W269) alternate on these days; the printed schedule doesn't say which falls on a given week.</p>
-    <p><b>5th-grade events:</b> the district calendar only lists district-wide dates — no open house, assemblies, or field trip dates were on it, so none are shown here. Tell me any dates from the school and I'll add them in.</p>
-    <p><b>Busing:</b> from Carter's Skyward busing page — Bus 937, pickup 8:04 AM / drop-off 4:05 PM at Crown Pointe Dr &amp; N Lewis Rd. The page didn't restrict this to specific days, so it's shown on every school day; let me know if that changes.</p>
-    <p><b>Bell times:</b> Skyward lists ELA as an 8:50 AM–12:20 PM block and Target Time/Pro Social as 12:21–3:40 PM, but doesn't give individual start/end times for Homeroom, Math, Science, Specials, or Social Studies — so only the two block times are shown; the rest are listed in order without a clock time rather than an invented one.</p>
-  </div>
+    <p><b>5th-grade events:</b> the district calendar only lists district-wide dates, so school-specific events (open house, assemblies, field trips) aren't shown.</p>
+    <p><b>Busing:</b> from Carter's Skyward busing page — Bus 937, pickup 8:04 AM / drop-off 4:05 PM at Crown Pointe Dr &amp; N Lewis Rd, shown for every school day. Half-day drop-off times will differ.</p>
+    <p><b>Bell times:</b> Skyward lists ELA as an 8:50 AM–12:20 PM block and Target Time/Pro Social as 12:21–3:40 PM, but gives no start/end times for Homeroom, Math, Science, Specials, or Social Studies, so those are marked "time TBD" rather than given an invented time.</p>
+    <p><b>Grades:</b> copied from Skyward by hand — check the "as of" date above the table.</p>
+  </details>
 
 </div>
 
@@ -486,9 +497,9 @@ const SCHEDULE = {
 
 const GRADES = [
   {subject:'ELA', period:'Period 1 (8:50 AM - 12:20 PM)', teacher:'Jamie Cross', kind:'ela',
-    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], current:[], assignments:[]},
+    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], assignments:[]},
   {subject:'MATH', period:'Period 3', teacher:'Christa Puco', kind:'math',
-    q:{ATH:null,Q1:100,Q2:null,Q3:null,Q4:null,FAV:100}, posted:['Q1','FAV'], current:['Q1'],
+    q:{ATH:null,Q1:100,Q2:null,Q3:null,Q4:null,FAV:100}, posted:['Q1','FAV'],
     assignments:[
       {name:'Combined Volume Classwork', due:'09/16/2026 (Q1)', grade:100},
       {name:'Homework Week of 9/14', due:'09/16/2026 (Q1)', grade:null},
@@ -498,7 +509,7 @@ const GRADES = [
       {name:'Lesson 1 Quiz', due:'09/03/2026 (Q1)', grade:100},
     ]},
   {subject:'SCIENCE', period:'Period 4', teacher:'Christa Puco', kind:'sci',
-    q:{ATH:null,Q1:100,Q2:null,Q3:null,Q4:null,FAV:100}, posted:['Q1','FAV'], current:['Q1'],
+    q:{ATH:null,Q1:100,Q2:null,Q3:null,Q4:null,FAV:100}, posted:['Q1','FAV'],
     assignments:[
       {name:'Food Chain Project', due:'09/18/2026 (Q1)', grade:null},
       {name:'Ecosystem Vocabulary', due:'09/16/2026 (Q1)', grade:100},
@@ -507,15 +518,15 @@ const GRADES = [
       {name:'Science About Me', due:'09/03/2026 (Q1)', grade:100},
     ]},
   {subject:'PHYSICAL EDUCATION', period:'Period 5', teacher:'Sheila Cemini', kind:'pe',
-    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], current:['Q2'], assignments:[]},
+    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], assignments:[]},
   {subject:'HEALTH', period:'Period 5', teacher:'Jeffrey Moyer', kind:'health',
-    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], current:['Q2'], assignments:[]},
+    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], assignments:[]},
   {subject:'ART', period:'Period 5', teacher:'Katherine Beerer', kind:'art',
-    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], current:['Q2'], assignments:[]},
+    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], assignments:[]},
   {subject:'MUSIC', period:'Period 5', teacher:'Bevin Seislove', kind:'music',
-    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], current:['Q2'], assignments:[]},
+    q:{ATH:null,Q1:null,Q2:null,Q3:null,Q4:null,FAV:null}, posted:[], assignments:[]},
   {subject:'SOCIAL STUDIES', period:'Period 6', teacher:'Brian Kraeer', kind:'ss',
-    q:{ATH:null,Q1:100,Q2:null,Q3:null,Q4:null,FAV:100}, posted:['Q1','FAV'], current:['Q1'],
+    q:{ATH:null,Q1:100,Q2:null,Q3:null,Q4:null,FAV:100}, posted:['Q1','FAV'],
     assignments:[
       {name:'Ch. 1 Lesson 2 Quiz', due:'09/18/2026 (Q1)', grade:100},
       {name:'Kachina Doll', due:'09/18/2026 (Q1)', grade:100},
@@ -525,6 +536,7 @@ const GRADES = [
     ]},
 ];
 const GRADE_COLS = ['ATH','Q1','Q2','Q3','Q4','FAV'];
+const GRADES_AS_OF = new Date(2026,8,20); // date the grades above were copied from Skyward
 
 /* ============ HELPERS ============ */
 const pad = n => String(n).padStart(2,'0');
@@ -534,6 +546,7 @@ const isWeekend = d => { const w=d.getDay(); return w===0||w===6; };
 const inSchoolYear = d => d.getTime()>=SCHOOL_YEAR_START.getTime() && d.getTime()<=SCHOOL_YEAR_END.getTime();
 const fmtLong = d => d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
 const fmtShort = d => d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+const inDays = n => n===0 ? 'today' : n===1 ? 'tomorrow' : `in ${n} days`;
 const fmtTab = d => d.toLocaleDateString('en-US',{weekday:'short'}) + ' ' + (d.getMonth()+1) + '/' + d.getDate();
 
 const nonSchoolMap = {}; NON_SCHOOL_DAYS.forEach(([d,type,label])=>{ nonSchoolMap[dateKey(d)]={type,label}; });
@@ -641,9 +654,9 @@ function renderStats(today){
           <div class="stat-icon" style="background:linear-gradient(160deg,var(--gold-400),var(--gold-500));color:var(--navy-950);">⭐</div>
           <div class="stat-textcol">
             <div class="stat-label">Up Next</div>
-            <div class="stat-value">${fmtShort(nsd)} — Day ${nsdNum} / Rotation ${nsdRot}</div>
+            <div class="stat-value">${fmtShort(nsd)} — Day ${nsdNum}${halfDayMap[dateKey(nsd)] ? ' · Half Day' : ''}</div>
           </div>
-          <div class="stat-badge">R${nsdRot}</div>
+          <div class="stat-badge" title="Rotation day">Rot ${nsdRot}</div>
         </div>
         <div class="stat-sub">${s.icon} ${special.subject} with ${special.teacher}</div>
       </div>`;
@@ -670,7 +683,7 @@ function renderStats(today){
           </div>
           <div class="stat-badge">No School</div>
         </div>
-        <div class="stat-sub">in ${days} day${days===1?'':'s'}</div>
+        <div class="stat-sub">${inDays(days)}</div>
       </div>`;
   } else {
     card2 = `
@@ -706,8 +719,18 @@ function initQuickTabs(today){
   quickTabs = [today];
   if(nsd) quickTabs.push(nsd);
 }
-function currentPeriodIndex(classes, isToday){
-  if(!isToday) return null;
+function prevSchoolDay(fromDate){
+  let d = addDays(fromDate,-1);
+  while(d.getTime() >= SCHOOL_YEAR_START.getTime()){
+    if(isSchoolDay(d)) return d;
+    d = addDays(d,-1);
+  }
+  return null;
+}
+document.getElementById('schedPrevBtn').addEventListener('click', () => { const d = prevSchoolDay(selectedDate); if(d) selectDate(d); });
+document.getElementById('schedNextBtn').addEventListener('click', () => { const d = nextSchoolDay(selectedDate); if(d) selectDate(d); });
+function currentPeriodIndex(classes, isToday, halfDay){
+  if(!isToday || halfDay) return null;
   const now = new Date();
   const mins = now.getHours()*60 + now.getMinutes();
   const elaIdx = classes.findIndex(p => p.num==='1');
@@ -723,9 +746,9 @@ function timelineHTML(classes, highlight){
     const s = SUBJECT_STYLE[p.kind];
     const isCurrent = highlight && i === highlight.idx;
     return `<div class="tl-row${isCurrent?' current':''}">
-      <div class="tl-time">${p.time || ''}</div>
+      ${p.time ? `<div class="tl-time">${p.time}</div>` : `<div class="tl-time tbd">time TBD</div>`}
       <div class="tl-track"><div class="tl-dot"></div><div class="tl-connector"></div></div>
-      <div class="tl-icon" style="background:${s.color}33;color:${s.color}">${s.icon}</div>
+      <div class="tl-icon" style="background:${s.color}33;color:${s.color}" aria-hidden="true">${s.icon}</div>
       <div class="tl-main">
         <div class="tl-name">${p.subject}</div>
         <div class="tl-sub">${p.teacher} · ${p.room}</div>
@@ -750,6 +773,9 @@ function renderScheduleCard(){
     });
   });
 
+  document.getElementById('schedPrevBtn').disabled = !prevSchoolDay(selectedDate);
+  document.getElementById('schedNextBtn').disabled = !nextSchoolDay(selectedDate);
+
   const info = describeDate(selectedDate);
   document.getElementById('scheduleTitle').textContent = isToday ? "Today's Schedule" : `Schedule — ${fmtShort(selectedDate)}`;
   document.getElementById('rotPill').textContent = info.status==='school' ? `DAY ${info.num} · ROT ${info.rot}` : '';
@@ -758,9 +784,9 @@ function renderScheduleCard(){
   if(info.status==='school'){
     let extra = '';
     if(info.milestone) extra += `<div class="status-line" style="margin-bottom:12px;">🎒 ${info.milestone}</div>`;
-    if(info.halfDay) extra += `<div class="status-line" style="margin-bottom:12px;">${info.halfDay}</div>`;
+    if(info.halfDay) extra += `<div class="status-line warn" style="margin-bottom:12px;">⚠️ ${info.halfDay} — early dismissal. The times below and the 4:05 PM bus drop-off won't apply; check with the school for dismissal time.</div>`;
     if(info.quarterEnd) extra += `<div class="status-line" style="margin-bottom:12px;">${info.quarterEnd}</div>`;
-    document.getElementById('scheduleBody').innerHTML = extra + timelineHTML(info.classes, currentPeriodIndex(info.classes, isToday));
+    document.getElementById('scheduleBody').innerHTML = extra + timelineHTML(info.classes, currentPeriodIndex(info.classes, isToday, info.halfDay));
   } else {
     document.getElementById('scheduleBody').innerHTML = bodyForInfoStatusOnly(info);
   }
@@ -818,18 +844,28 @@ function exportWeekPDF(){
 document.getElementById('printWeekBtn').addEventListener('click', exportWeekPDF);
 
 /* ============ BUS CARD ============ */
-function renderBusCard(){
+let busWeather = null; // {am:{temp,rain}, pm:{temp,rain}} for today, filled in by loadWeather()
+function renderBusCard(today){
+  const info = describeDate(today);
+  const nsd = nextSchoolDay(today);
+  let note = '';
+  if(info.status==='school' && info.halfDay) note = `⚠️ Half day today — the ${BUS_INFO.pmTime} drop-off won't apply.`;
+  else if(nsd && halfDayMap[dateKey(nsd)]) note = `⚠️ ${fmtShort(nsd)} is a half day — the ${BUS_INFO.pmTime} drop-off won't apply.`;
+  document.getElementById('busNote').innerHTML = note ? `<div class="bus-note">${note}</div>` : '';
+
+  const showWx = busWeather && info.status==='school';
+  const wx = w => showWx && w ? `<span class="bus-wx">${w.temp}°${w.rain!=null ? ` · ${w.rain}% rain` : ''}</span>` : '';
   document.getElementById('routeBadge').textContent = BUS_INFO.route;
   document.getElementById('busBody').innerHTML = `
     <div class="bus-row2">
       <div class="bus-circle" style="background:#4a9d6f">AM</div>
       <div class="bus-main"><div class="bus-label">Pickup</div><div class="bus-sub">${BUS_INFO.stop}</div></div>
-      <div class="bus-time">${BUS_INFO.amTime}</div>
+      <div class="bus-time">${BUS_INFO.amTime}${wx(busWeather && busWeather.am)}</div>
     </div>
     <div class="bus-row2">
       <div class="bus-circle" style="background:#cd8f4a">PM</div>
       <div class="bus-main"><div class="bus-label">Drop-off</div><div class="bus-sub">${BUS_INFO.stop}</div></div>
-      <div class="bus-time">${BUS_INFO.pmTime}</div>
+      <div class="bus-time">${BUS_INFO.pmTime}${wx(busWeather && busWeather.pm)}</div>
     </div>`;
 }
 
@@ -851,31 +887,45 @@ function renderTeacherCard(){
 }
 
 /* ============ GRADES CARD ============ */
-function renderGradesCard(){
-  const head = `<tr><th>Class</th>${GRADE_COLS.map(c=>`<th class="${c==='Q1'||c==='Q2'?'current-col':''}">${c}</th>`).join('')}</tr>`;
+function currentQuarter(d){
+  for(let i=0;i<QUARTER_ENDS.length;i++) if(d.getTime() <= QUARTER_ENDS[i][0].getTime()) return 'Q'+(i+1);
+  return 'Q4';
+}
+function parseDue(due){
+  const m = /^(\d{2})\/(\d{2})\/(\d{4})/.exec(due);
+  return m ? new Date(+m[3], +m[1]-1, +m[2]) : null;
+}
+function renderGradesCard(today){
+  const curQ = currentQuarter(today);
+  // show a column if any class has a grade in it, plus the current quarter
+  const cols = GRADE_COLS.filter(c => c===curQ || GRADES.some(cls => cls.q[c]!=null));
+  document.getElementById('gradesFoot').innerHTML =
+    `Grades as of <b>${fmtShort(GRADES_AS_OF)}</b> · copied from Skyward. Grades posted to the report card are <b>bold</b>; the current quarter (${curQ}) is highlighted.`;
+  const head = `<tr><th>Class</th>${cols.map(c=>`<th class="${c===curQ?'current-col':''}">${c}</th>`).join('')}</tr>`;
   const rows = GRADES.map((cls, i) => {
     const meta = SUBJECT_STYLE[cls.kind] || {icon:'📘', color:'#888'};
     const hasAssignments = cls.assignments.length > 0;
     const rowId = `gr-${i}`;
-    const cells = GRADE_COLS.map(c => {
+    const ungraded = cls.assignments.filter(a => { const d = parseDue(a.due); return a.grade==null && d && d.getTime() < today.getTime(); }).length;
+    const cells = cols.map(c => {
       const val = cls.q[c];
-      const isPosted = cls.posted.includes(c);
-      const isCurrent = cls.current.includes(c);
       const classes = ['gr-cell'];
       if(val!=null) classes.push('filled');
-      if(isPosted) classes.push('posted');
-      if(c==='Q1'||c==='Q2') classes.push('current-col');
-      if(isCurrent) classes.push('highlight');
-      return `<td><span class="${classes.join(' ')}">${val!=null?val:'—'}</span></td>`;
+      if(cls.posted.includes(c)) classes.push('posted');
+      if(c===curQ){ classes.push('highlight'); if(val==null) classes.push('empty-hl'); }
+      return `<td class="${c===curQ?'current-col':''}"><span class="${classes.join(' ')}">${val!=null?val:'—'}</span></td>`;
     }).join('');
+    const rowAttrs = hasAssignments
+      ? `id="${rowId}" tabindex="0" role="button" aria-expanded="false" aria-controls="${rowId}-body" aria-label="${cls.subject} — show assignments"`
+      : '';
     const main = `
-      <tr class="gr-row${hasAssignments?' has-assignments':''}" ${hasAssignments?`onclick="toggleGradesRow('${rowId}')" id="${rowId}"`:''}>
+      <tr class="gr-row${hasAssignments?' has-assignments':''}" ${rowAttrs}>
         <td>
           <div class="gr-class">
-            ${hasAssignments?'<span class="gr-caret">▶</span>':'<span class="gr-caret"></span>'}
-            <div class="gr-icon" style="background:${meta.color}33;color:${meta.color}">${meta.icon}</div>
+            <span class="gr-caret" aria-hidden="true">${hasAssignments?'▶':''}</span>
+            <div class="gr-icon" style="background:${meta.color}33;color:${meta.color}" aria-hidden="true">${meta.icon}</div>
             <div class="gr-name-col">
-              <div class="gr-subject">${cls.subject}</div>
+              <div class="gr-subject">${cls.subject}${ungraded ? `<span class="gr-missing">${ungraded} ungraded</span>` : ''}</div>
               <div class="gr-meta">${cls.period} · ${cls.teacher}</div>
             </div>
           </div>
@@ -884,36 +934,49 @@ function renderGradesCard(){
       </tr>`;
     const assignRows = hasAssignments ? `
       <tr class="gr-assignments" id="${rowId}-body">
-        <td colspan="${GRADE_COLS.length+1}">
-          ${cls.assignments.map(a => `
+        <td colspan="${cols.length+1}">
+          ${cls.assignments.map(a => {
+            const d = parseDue(a.due);
+            const late = a.grade==null && d && d.getTime() < today.getTime();
+            return `
             <div class="gr-assign-row">
-              <div><div class="gr-assign-name">${a.name}</div><div class="gr-assign-due">Due: ${a.due}</div></div>
+              <div><div class="gr-assign-name">${a.name}${late ? '<span class="gr-missing">Not graded</span>' : ''}</div><div class="gr-assign-due">Due: ${a.due}</div></div>
               <div class="gr-assign-grade${a.grade==null?' empty':''}">${a.grade!=null?a.grade:'—'}</div>
-            </div>`).join('')}
+            </div>`;
+          }).join('')}
         </td>
       </tr>` : '';
     return main + assignRows;
   }).join('');
-  document.getElementById('gradesTable').innerHTML = head + rows;
+  const table = document.getElementById('gradesTable');
+  const openIds = [...table.querySelectorAll('.gr-row.open')].map(r => r.id);
+  table.innerHTML = head + rows;
+  openIds.forEach(toggleGradesRow);
+  table.querySelectorAll('.gr-row.has-assignments').forEach(row => {
+    row.addEventListener('click', () => toggleGradesRow(row.id));
+    row.addEventListener('keydown', e => { if(e.key==='Enter' || e.key===' '){ e.preventDefault(); toggleGradesRow(row.id); } });
+  });
 }
-window.toggleGradesRow = function(rowId){
-  document.getElementById(rowId).classList.toggle('open');
-  document.getElementById(rowId+'-body').classList.toggle('open');
-};
+function toggleGradesRow(rowId){
+  const row = document.getElementById(rowId);
+  const open = row.classList.toggle('open');
+  row.setAttribute('aria-expanded', open);
+  document.getElementById(rowId+'-body').classList.toggle('open', open);
+}
 
 /* ============ LEGEND CARD ============ */
 function renderLegendCard(today){
   const info = describeDate(today);
   const nsd = nextSchoolDay(today);
-  let currentRot = null;
+  let currentRot = null, rotTag = 'TODAY';
   if(info.status==='school') currentRot = info.rot;
-  else if(nsd) currentRot = rotationDayFor(schoolDayNumberMap[dateKey(nsd)]);
+  else if(nsd){ currentRot = rotationDayFor(schoolDayNumberMap[dateKey(nsd)]); rotTag = 'NEXT'; }
 
   const rows = [1,2,3,4,5,6].map(day => {
     const p = SCHEDULE[day][5];
     const s = SUBJECT_STYLE[p.kind];
     let tag = '';
-    if(day === currentRot) tag = `<span class="legend-tag tag-today">TODAY</span>`;
+    if(day === currentRot) tag = `<span class="legend-tag tag-today">${rotTag}</span>`;
     else if(day===3 || day===6) tag = `<span class="legend-tag tag-alt">ALTERNATES</span>`;
     return `<div class="legend-row">
       <div class="legend-num" style="background:${s.color}">${day}</div>
@@ -943,7 +1006,7 @@ function renderUpcoming2(today){
   const list = Object.values(byDate).filter(e => e.date.getTime() > today.getTime()).sort((a,b) => a.date - b.date).slice(0,5);
 
   if(list.length===0){
-    el.innerHTML = `<div class="up-row2"><span class="up-name2" style="color:rgba(246,241,228,0.5);font-weight:400;">Nothing else scheduled before the end of the calendar.</span></div>`;
+    el.innerHTML = `<div class="up-row2"><span class="up-name2" style="color:rgba(246,241,228,0.62);font-weight:400;">Nothing else scheduled before the end of the calendar.</span></div>`;
     return;
   }
   const tagFor = t => t==='closed' ? `<span class="pill-tag tag-noschool">No School</span>`
@@ -960,7 +1023,7 @@ function renderUpcoming2(today){
       <div class="up-main2">
         <div class="up-date2">${fmtShort(e.date)}</div>
         <div class="up-name2">${label}</div>
-        <div class="up-days">in ${Math.round((e.date-today)/86400000)} days</div>
+        <div class="up-days">${inDays(Math.round((e.date-today)/86400000))}</div>
       </div>
       ${tagFor(primary.type)}
     </div>`;
@@ -984,7 +1047,7 @@ const WEATHER_CODES = {
 async function loadWeather(){
   const el = document.getElementById('weatherStrip');
   try{
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=America%2FNew_York&forecast_days=1`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}&current=temperature_2m,weather_code&hourly=temperature_2m,precipitation_probability&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=America%2FNew_York&forecast_days=1`;
     const res = await fetch(url);
     if(!res.ok) throw new Error('bad response');
     const data = await res.json();
@@ -993,6 +1056,15 @@ async function loadWeather(){
     const temp = Math.round(data.current.temperature_2m);
     const hi = Math.round(data.daily.temperature_2m_max[0]);
     const lo = Math.round(data.daily.temperature_2m_min[0]);
+    const hourAt = h => {
+      const i = data.hourly.time.findIndex(t => t.endsWith(`T${pad(h)}:00`));
+      if(i < 0) return null;
+      const rain = data.hourly.precipitation_probability ? data.hourly.precipitation_probability[i] : null;
+      return {temp: Math.round(data.hourly.temperature_2m[i]), rain};
+    };
+    busWeather = {am: hourAt(8), pm: hourAt(16)};
+    const t = new Date(); t.setHours(0,0,0,0);
+    renderBusCard(t);
     el.classList.remove('loading');
     el.innerHTML = `<span class="w-icon">${info.icon}</span><span class="w-temp">${temp}°F</span><span class="w-desc">${info.label}</span><span class="w-sep">·</span><span class="w-hilo">H:${hi}° L:${lo}°</span><span class="w-sep">·</span><span class="w-place">Royersford, PA</span>`;
   }catch(e){
@@ -1053,9 +1125,11 @@ function renderCalendar(){
         let extra = '';
         if(key===todayKey) extra += ' today';
         if(key===selKey) extra += ' selected';
-        return `<div class="cal-cell ${cls}${extra}" data-date="${key}">
+        const info = describeDate(d);
+        const desc = info.status==='off' ? info.off.label : info.status==='school' ? `Rotation ${info.rot}${info.halfDay ? ', half day' : ''}` : 'No school';
+        return `<button type="button" class="cal-cell ${cls}${extra}" data-date="${key}" aria-label="${fmtLong(d)} — ${desc}"${key===selKey ? ' aria-pressed="true"' : ''}>
           <span class="dnum">${d.getDate()}</span>
-        </div>`;
+        </button>`;
       }).join('')}
     </div>
   `).join('');
@@ -1063,6 +1137,9 @@ function renderCalendar(){
     cell.addEventListener('click', () => {
       const [yy,mm,dd] = cell.dataset.date.split('-').map(Number);
       selectDate(new Date(yy, mm-1, dd));
+      // on narrow screens the schedule card is above the calendar; bring it into view
+      const card = document.querySelector('.schedule-card');
+      if(card.getBoundingClientRect().top < 0) card.scrollIntoView({behavior:'smooth', block:'start'});
     });
   });
 }
@@ -1081,17 +1158,37 @@ document.getElementById('todayBtn').addEventListener('click', () => {
   selectDate(today);
 });
 
-/* ============ INIT ============ */
-const {today} = renderTopPills();
-renderStats(today);
-initQuickTabs(today);
-renderBusCard();
+/* ============ INIT + AUTO-REFRESH ============ */
+let lastTodayKey = null;
+function renderAll(){
+  const {today} = renderTopPills();
+  const todayKey = dateKey(today);
+  const dayChanged = lastTodayKey !== todayKey;
+  renderStats(today);
+  renderBusCard(today);
+  renderGradesCard(today);
+  renderLegendCard(today);
+  renderUpcoming2(today);
+  if(dayChanged){
+    const wasOnToday = !selectedDate || dateKey(selectedDate) === lastTodayKey;
+    lastTodayKey = todayKey;
+    initQuickTabs(today);
+    loadWeather();
+    if(wasOnToday){
+      let idx = MONTHS.findIndex(mm => mm.y===today.getFullYear() && mm.m===today.getMonth());
+      if(idx===-1) idx = today.getTime() < SCHOOL_YEAR_START.getTime() ? 0 : MONTHS.length-1;
+      currentMonthIndex = idx;
+      selectDate(today);
+      return;
+    }
+  }
+  renderCalendar();
+  renderScheduleCard(); // keeps the "Now" highlight current
+}
 renderTeacherCard();
-renderGradesCard();
-renderLegendCard(today);
-renderUpcoming2(today);
-loadWeather();
-selectDate(today);
+renderAll();
+setInterval(renderAll, 60*1000);
+document.addEventListener('visibilitychange', () => { if(!document.hidden) renderAll(); });
 </script>
 </body>
 </html>
