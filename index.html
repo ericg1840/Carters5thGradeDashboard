@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Carter's 5th Grade Dashboard</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20100%20100%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%20%3Cg%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-weight%3D%22900%22%20font-size%3D%2276%22%20text-anchor%3D%22middle%22%3E%20%3Ctext%20x%3D%2257%22%20y%3D%2276%22%20fill%3D%22%231a3a68%22%3EC%3C/text%3E%20%3Ctext%20x%3D%2253.5%22%20y%3D%2272.5%22%20fill%3D%22%23cda454%22%3EC%3C/text%3E%20%3Ctext%20x%3D%2250%22%20y%3D%2269%22%20fill%3D%22%23ffffff%22%20stroke%3D%22%2312203f%22%20stroke-width%3D%222.5%22%20paint-order%3D%22stroke%20fill%22%3EC%3C/text%3E%20%3C/g%3E%20%3C/svg%3E">
 <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
@@ -22,6 +22,7 @@
   --font-main: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 *{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
 body{
   margin:0; min-height:100vh;
   background:
@@ -29,6 +30,7 @@ body{
     radial-gradient(900px 600px at 100% 0%, rgba(26,58,104,0.5), transparent 55%),
     var(--navy-950);
   font-family:var(--font-main); color:var(--cream); padding:24px 14px 60px;
+  padding:max(24px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(60px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
 }
 .wrap{max-width:1080px;margin:0 auto;}
 .card{
@@ -71,7 +73,9 @@ body{
 .weather-strip.loading{color:rgba(246,241,228,0.62);font-size:14.5px;}
 
 /* ---- stats row ---- */
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.stats-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:16px;}
+/* foldable inner screens and small tablets are too narrow for three stat cards side by side */
+@media (max-width:860px){.stats-row{grid-template-columns:1fr;gap:8px;}}
 .stat-card{padding:16px 17px;display:flex;flex-direction:column;gap:9px;}
 .stat-top{display:flex;align-items:center;gap:11px;}
 .stat-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 4px 10px -4px rgba(0,0,0,0.5);}
@@ -282,7 +286,7 @@ body{
 }
 
 @media (max-width:600px){
-  body{padding:18px 10px 48px;}
+  body{padding:max(18px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(48px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));}
   .stats-row{grid-template-columns:1fr;gap:8px;}
   .stat-card{padding:12px 14px;}
   .top-pills{align-items:flex-start;width:100%;}
