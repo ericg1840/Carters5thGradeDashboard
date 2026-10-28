@@ -1,5 +1,5 @@
 // Bump this whenever index.html/manifest.json/icons change, so clients pick up the update.
-const CACHE_VERSION = 'carters-dashboard-v2';
+const CACHE_VERSION = 'carters-dashboard-v3';
 
 const PRECACHE_URLS = [
   '/',

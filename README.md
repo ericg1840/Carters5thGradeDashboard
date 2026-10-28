@@ -12,11 +12,8 @@ data, rendering) lives in `index.html`.
 - Deploys have been pushed manually (base64 file upload) up to now, always to
   the same project name / `target: production`, which is why the URL has
   stayed stable across every redeploy.
-- **Not yet confirmed live:** the last push (adding `manifest.json` and the
-  three `icon-*.png` files for "Add to Home Screen" support) hit a tool error
-  and may not have fully landed. Verify `/manifest.json` and `/icon-192.png`
-  actually resolve on the live URL before assuming the home-screen icon
-  works — if they 404, just redeploy this folder as-is.
+- The `icon-*.png` files for "Add to Home Screen" are now committed to the
+  repo; after deploying, confirm `/icon-192.png` resolves on the live URL.
 
 ## Files in this folder
 
@@ -193,6 +190,21 @@ Live current conditions + today's high/low for **Royersford, PA** (lat
 building) via **Open-Meteo** (`api.open-meteo.com`), a free API that needs no
 key and works fine called directly from client-side JS. Imperial units,
 `America/New_York` timezone.
+
+### Grades
+
+`GRADES` in the JS is copied by hand from Skyward. When updating it, also bump
+`GRADES_AS_OF` — it's shown above the table. The highlighted "current
+quarter" column is computed from `QUARTER_ENDS`, and columns that are empty
+for every class are hidden automatically. Assignments with no grade whose due
+date has passed get a "Not graded" tag.
+
+### Auto-refresh
+
+The page re-renders every minute and whenever it becomes visible again, so the
+date, day counter, and "Now" highlight stay correct if it's left open (e.g. as
+a home-screen app). If the date rolls over while viewing today, it moves to
+the new today.
 
 ### What was deliberately left out
 
